@@ -1,9 +1,11 @@
 
 <header>
   <div class="page-header">
-    <div class="app-title">
-      <h1 class="courier">lockDown()</h1>
-    </div>
+    {{#link-to "index"}}
+      <div class="app-title">
+        <h1 class="courier">lockDown()</h1>
+      </div>
+    {{/link-to}}
     <nav>
       {{#if loggedIn}}
         <h3>{{user}}</h3>
@@ -20,9 +22,3 @@
 <main>
   {{outlet}}
 </main>
-
-<footer>
-  <div class="page-footer">
-
-  </div>
-</footer>

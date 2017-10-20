@@ -1,7 +1,8 @@
 
 @import "ember-bootstrap/bootstrap";
 
-/*BODY*/
+// BODY
+
 body {
   font-family: "Times New Roman";
   margin: 0;
@@ -9,12 +10,13 @@ body {
   background-color: rgba(100,100,100,0.1);
 }
 
-/*FONT*/
+// FONT
+
 .courier {
   font-family: "Courier New", Courier, monospace;
 }
 
-/*BUTTONS*/
+// BUTTONS
 
 button {
   border-radius: 0px;
@@ -35,13 +37,11 @@ button:active {
   border-width: 3px 1px 1px 3px;
 }
 
-
-
 .navbar-btn{
   background-color: rgba(255,255,255,0.5);
 }
 
-/*HEADER*/
+// HEADER
 
 header {
   border-bottom: 1px solid black;
@@ -61,6 +61,10 @@ header {
   border-bottom: 0;
 }
 
+.page-header a{
+  text-decoration: none;
+}
+
 .app-title {
   box-sizing: border-box;
   margin: 0;
@@ -68,13 +72,14 @@ header {
   border-right: 1px solid black;
   background-color: rgba(255,255,255,0.6);
   transition: 1s;
+  color: black;
 }
 
 .app-title:hover {
   background-color: rgba(0,0,0,0.5);
   color: white;
   transition: 1s;
-  cursor: default;
+  cursor: pointer;
 }
 nav {
   display: flex;
@@ -85,4 +90,13 @@ nav {
 
 nav h3 {
   padding: 0 1em;
+}
+
+// MAIN
+
+main {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 1em;
+
 }

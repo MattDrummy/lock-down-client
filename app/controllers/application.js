@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  loggedIn: true,
+  loggedIn: false,
   user: "GUEST",
   actions: {
     logIn(){
@@ -12,6 +12,6 @@ export default Ember.Controller.extend({
     },
     signUp(){
 
-    },
+    }
   }
 });
