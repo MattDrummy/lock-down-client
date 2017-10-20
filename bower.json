@@ -1,0 +1,6 @@
+{
+  "name": "lock-down-client",
+  "dependencies": {
+    "semantic-ui": "^2.2.13"
+  }
+}
