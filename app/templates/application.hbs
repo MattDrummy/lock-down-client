@@ -1,18 +1,28 @@
+
 <header>
   <div class="page-header">
-    <h1 class="courier">lockDown()</h1>
-    <p>{{loggedIn}}</p>
-    {{#if loggedIn}}
-      <button type="button" class="navbar-btn navbar-right">Log Out</button>
-    {{else}}
-      <button type="button" class="navbar-btn navbar-right">Log In</button>
-      <button type="button" class="navbar-btn navbar-right">Sign Up</button>
-    {{/if}}
+    <div class="app-title">
+      <h1 class="courier">lockDown()</h1>
+    </div>
+    <nav>
+      {{#if loggedIn}}
+        <h3>{{user}}</h3>
+        <button type="button" class="navbar-btn" {{action "logOut"}}>Log Out</button>
+      {{else}}
+        <button type="button" class="navbar-btn" {{action "logIn"}}>Log In</button>
+        <button type="button" class="navbar-btn" {{action "signUp"}}>Sign Up</button>
+      {{/if}}
+    </nav>
+
   </div>
 </header>
 
-{{outlet}}
+<main>
+  {{outlet}}
+</main>
 
 <footer>
+  <div class="page-footer">
 
+  </div>
 </footer>

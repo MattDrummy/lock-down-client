@@ -1,2 +1,88 @@
 
 @import "ember-bootstrap/bootstrap";
+
+/*BODY*/
+body {
+  font-family: "Times New Roman";
+  margin: 0;
+  padding: 0;
+  background-color: rgba(100,100,100,0.1);
+}
+
+/*FONT*/
+.courier {
+  font-family: "Courier New", Courier, monospace;
+}
+
+/*BUTTONS*/
+
+button {
+  border-radius: 0px;
+  background-color: rgba(255,255,255,1);
+  font-size: 1.3em;
+  font-family: inherit;
+  border-color: grey;
+  border-width: 1px 3px 3px 1px;
+  box-sizing: border-box;
+  margin: 0 0.66em;
+}
+
+button:focus {
+  outline: 0;
+}
+
+button:active {
+  border-width: 3px 1px 1px 3px;
+}
+
+
+
+.navbar-btn{
+  background-color: rgba(255,255,255,0.5);
+}
+
+/*HEADER*/
+
+header {
+  border-bottom: 1px solid black;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: rgba(100,100,180,0.5);
+}
+
+.page-header {
+  padding: 0em 1em 0em 0em;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  border-bottom: 0;
+}
+
+.app-title {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0.5em 1em;
+  border-right: 1px solid black;
+  background-color: rgba(255,255,255,0.6);
+  transition: 1s;
+}
+
+.app-title:hover {
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  transition: 1s;
+  cursor: default;
+}
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+}
+
+nav h3 {
+  padding: 0 1em;
+}
