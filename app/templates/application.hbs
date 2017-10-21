@@ -6,10 +6,10 @@
         <h1 class="courier">lockDown()</h1>
       </div>
     {{/link-to}}
-    
+
     <nav>
       {{#if loggedIn}}
-        <h3>{{user}}</h3>
+        <p class="courier">{{user}}</p>
         <button type="button" class="navbar-btn" {{action "logOut"}}>Log Out</button>
       {{else}}
         <button type="button" class="navbar-btn" {{action "logIn"}}>Log In</button>
