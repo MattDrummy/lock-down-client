@@ -1,9 +1,5 @@
 
 @import "ember-bootstrap/bootstrap";
-$background-blue: rgba(100,100,180,0.5);
-$background-light: rgba(100,100,100,0.1);
-$background-gray: rgba(255,255,255,0.5);
-$background-dark: rgba(0,0,0,0.5);
 $courier: "Courier", Courier, monospace;
 // BODY
 
@@ -11,7 +7,7 @@ body {
   font-family: "Times New Roman";
   margin: 0;
   padding: 0;
-  background-color: $background-light;
+  background-color: rgba(100,100,100,0.1);
 }
 
 // FONT
@@ -23,10 +19,12 @@ body {
 // BUTTONS
 
 button {
-  background-color: $background-light;
+  background-color: rgba(100,100,100,0.1);
   font-size: 1.3em;
   font-family: inherit;
-  border-width: 0px 1px 1px 0px;
+  border-radius: 5px;
+  border-color: rgb(50,50,50);
+  border-width: 0px 2px 2px 0px;
   box-sizing: border-box;
   margin: 0 0.66em;
 }
@@ -36,11 +34,13 @@ button:focus {
 }
 
 button:active {
-  border-width: 2px 0px 0px 2px;
+  border-width: 0;
+  border-width: 1px 0px 0px 1px;
+
 }
 
 .navbar-btn{
-  background-color: $background-gray;
+  background-color: rgba(255,255,255,0.5);
 }
 
 // HEADER
@@ -50,7 +50,7 @@ header {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: $background-blue;
+  background-color: rgba(100,100,180,0.5);
 }
 
 .page-header {
@@ -70,15 +70,15 @@ header {
 .app-title {
   box-sizing: border-box;
   margin: 0;
-  padding: 0.5em 1em;
+  padding: 1em;
   border-right: 1px solid black;
-  background-color: $background-gray;
+  background-color: rgba(255,255,255,0.5);
   transition: 1s;
   color: black;
 }
 
 .app-title:hover {
-  background-color: $background-dark;
+  background-color: rgba(0,0,0,0.5);
   color: white;
   transition: 1s;
   cursor: pointer;
@@ -96,11 +96,10 @@ nav h3 {
 
 // SIGNUP MODAL
 
-td {
+.sign-up-table td {
   padding: 0.5em 1em;
 }
 
-.modal button {}
 // MAIN
 
 main {
