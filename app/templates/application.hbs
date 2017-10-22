@@ -12,7 +12,7 @@
         <p class="courier">{{user}}</p>
         <button type="button" class="navbar-btn" {{action "logOut"}}>Log Out</button>
       {{else}}
-        <button type="button" class="navbar-btn" {{action "logIn"}}>Log In</button>
+        <button type="button" class="navbar-btn" {{action (mut logInModal) true}}>Log In</button>
         <button type="button" class="navbar-btn" onClick={{action (mut signUpModal) true}}>Sign Up</button>
 
       {{/if}}
@@ -63,7 +63,44 @@
   {{#modal.footer}}
     {{#bs-button onClick=(action modal.close)}}Cancel{{/bs-button}}
     <span onclick={{action modal.submit}}>
-      {{#bs-button type="success" onClick=(action modal.close)}}Submit{{/bs-button}}
+      {{#bs-button type="success" onClick=(action modal.close)}}Sign Up{{/bs-button}}
     </span>
   {{/modal.footer}}
 {{/bs-modal}}
+
+{{#bs-modal open=logInModal onSubmit=(action "logIn") onHidden=(action (mut logInModal) false) as |modal|}}
+  {{#modal.header}}
+    <h4 class="modal-title">
+      Log In
+    </h4>
+  {{/modal.header}}
+  {{#modal.body}}
+  <table class="sign-up-table">
+    <tr>
+      <td>
+        <label for="username">username</label>
+      </td>
+      <td>
+        {{input label="username" type="text" autofocus="autofocus" name="username" value=logInUsername}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="password">password</label>
+      </td>
+      <td>
+        {{input type="password" name="password" value=logInPassword}}
+      </td>
+    </tr>
+  </table>
+
+  {{/modal.body}}
+  {{#modal.footer}}
+    {{#bs-button onClick=(action modal.close)}}Cancel{{/bs-button}}
+    <span onclick={{action modal.submit}}>
+      {{#bs-button type="success" onClick=(action modal.close)}}Log In{{/bs-button}}
+    </span>
+  {{/modal.footer}}
+{{/bs-modal}}
+
+<!-- LOG IN MODAL -->

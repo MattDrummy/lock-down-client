@@ -4,7 +4,7 @@ $courier: "Courier", Courier, monospace;
 // BODY
 
 body {
-  font-family: "Times New Roman";
+  font-family: $courier;
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -21,17 +21,21 @@ body {
 // BUTTONS
 
 button {
-  background-color: rgba(100,100,100,0.1);
-  font-size: 2.3em;
+  background-color: rgb(50,200,50);
   font-family: inherit;
   border-radius: 5px;
   border-color: rgb(50,50,50);
   border-width: 0px 2px 2px 0px;
   box-sizing: border-box;
   margin: 0 0.66em;
+  font-size: 2em;
 }
 
 button:focus {
+  outline: 0;
+}
+
+input:focus {
   outline: 0;
 }
 
@@ -41,18 +45,15 @@ button:active {
 
 }
 
-.navbar-btn{
-  background-color: rgba(255,255,255,0.5);
-}
+
 
 // HEADER
 
 header {
   width: 100%;
   height: 10vh;
-  border-bottom: 2px solid black;
-  background-color: rgb(175,175,255);
-
+  background-color: white;
+  background: rgba(100,100,180,0.5);
 }
 
 .page-header {
@@ -75,14 +76,14 @@ header {
   margin: 0;
   padding: 1em;
   transition: 1s;
-  color: black;
+  background: black;
+  color: rgb(50,200,50);
   height: 10vh;
-  background-color: rgba(255,255,255,0.4);
 }
 
 .app-title:hover {
-  background-color: rgba(0,0,0,0.5);
-  color: white;
+  background-color: white;
+  color: black;
   transition: 1s;
   cursor: pointer;
 }
@@ -114,6 +115,7 @@ main {
   padding: 0.25em;
   height: 90vh;
   width: 100%;
+  background-color: black;
 }
 
 // GAME AREA
@@ -123,17 +125,9 @@ main {
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: rgb(200,200,200);
-
+  background: rgb(175,175,175)
 }
 
-.docs-area {
-  margin: 0.5em 0;
-}
-
-.command-console {
-  background: rgb(50,50,50);
-}
 .command-console,
 .docs-area,
 .game-block {
@@ -144,13 +138,18 @@ main {
   padding: 0.5em;
 }
 
+//documents area
+.docs-area {
+  margin: 0.5em 0;
+}
+
+// COMMAND CONSOLE AREA
+
 .command-console {
   display: flex;
   flex-direction: column;
   padding: 0.5em;
 }
-
-
 
 .console-window {
   box-sizing: border-box;
@@ -170,19 +169,24 @@ main {
   width: 100%;
 }
 
-.console-input input {
+.console-input input,
+.chat-box input{
   width: 100%;
-}
-
-.console-button {
-  background-color: rgb(50, 200, 50);
+  background: black;
+  color: rgb(50,200,50);
+  font-family: $courier;
+  border: 1px solid white;
+  padding: 0 1em;
 }
 
 .game-info {
   width: 40%;
-  background-color: white;
+  background: black;
+  color: rgb(50,200,50);
   margin-right: 0.25em;
 }
+
+// CHAT BOX AREA
 
 .chat-box {
   width: 60%;
@@ -195,7 +199,8 @@ main {
 .chat-window {
   height: 100%;
   width: 100%;
-  background-color: white;
+  background: black;
+  color: rgb(50,200,50);
   padding: 0.5em;
 }
 
@@ -210,10 +215,9 @@ main {
   width: 100%;
 }
 
-.chat-input button {
-  background-color: rgb(50, 200, 50);
-  margin: 0 0 0 0.5em;
-}
+// MODALS
+
+// DESKTOP QUERY
 
 @media (min-width: 1025px) {
   .game-area {
@@ -229,6 +233,10 @@ main {
 
   .docs-area {
     margin: 0 0.5em;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    background-color: blue;
   }
 
   .game-block {
@@ -248,16 +256,15 @@ main {
     width: 100%;
     margin: 0.25em 0 0 0;
     padding: 0;
-  }
-
-  button {
-    font-size: 1.3em;
+    font-family: $courier;
   }
 
 
 }
 
-@media (max-width: 570px) {
+// ODDLY SIZED VIEWS
+
+@media (max-width: 670px) {
   .app-title {
     display: flex;
     align-items: center;
@@ -266,27 +273,21 @@ main {
   .app-title h1 {
     font-size: 2em;
   }
+
   button {
     font-size: 2em;
   }
+
 }
 
-@media (max-width: 480px) {
-  .app-title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-  }
+@media (max-width: 530px) {
   .app-title h1 {
-    font-size: 2em;
-  }
-  button {
     font-size: 1.3em;
   }
+
 }
 
-@media (max-width: 360px) {
+@media (max-width: 470px) {
   button {
     font-size: 1em;
   }
