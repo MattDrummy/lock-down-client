@@ -7,8 +7,7 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('operator-example');
-  this.route('operative-example');
+  this.route('example-game-area');
 });
 
 export default Router;
