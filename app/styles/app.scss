@@ -126,11 +126,9 @@ nav {
 // MAIN ========================================================================
 
 main {
-  margin: 0;
-  padding: 0.5em;
+  box-sizing: border-box;
   height: 90vh;
   width: 100%;
-  background-color: black;
 }
 
 // METAL TEXTURE ===============================================================
@@ -139,7 +137,7 @@ main {
 .game-area {
   background-image: url("/images/background.jpg");
   background-size: 100% 100%;
-  padding: 1em;
+  padding: 0.5em;
 }
 // COMPUTER WINDOW FORMAT ======================================================
 
@@ -164,9 +162,7 @@ main {
 
 // GAME AREA ===================================================================
 
-.game-area {
-  height: 90vh;
-}
+
 
 .command-console,
 .game-area,
@@ -206,6 +202,7 @@ main {
 @media (min-width: 1025px) {
   .game-area {
     flex-direction: row;
+    padding: 1.5em;
   }
 
   .input-box {

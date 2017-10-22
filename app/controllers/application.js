@@ -33,6 +33,11 @@ export default Ember.Controller.extend({
       }
     },
     closeModal(modal){
+      this.set('signUpUsername', '');
+      this.set('signUpEmail', '');
+      this.set('signUpPassword', '')
+      this.set('logInPassword', "")
+      this.set('logInUsername', "")
       modal.close();
     }
   }
