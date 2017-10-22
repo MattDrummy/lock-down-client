@@ -70,6 +70,12 @@ button:active {
   font-size: 1em;
 }
 
+// OVERWRITE LINK STYLE ========================================================
+
+a {
+  text-decoration: none !important;
+}
+
 // HEADER ======================================================================
 
 header {
@@ -82,10 +88,6 @@ header {
   border: 0;
 }
 
-.page-header a{
-  text-decoration: none;
-}
-
 .app-title {
   margin: 0;
   padding: 1em;
@@ -93,6 +95,7 @@ header {
   color: rgb(50,200,50);
   justify-content: center;
   align-items: center;
+  height: 10vh;
 }
 
 .app-title:hover {
@@ -106,6 +109,8 @@ nav {
   justify-content: flex-end;
   align-items: center;
   margin-right: 0.5em;
+  height: 10vh;
+
 }
 
 .user-name {
