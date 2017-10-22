@@ -1,7 +1,9 @@
 
 @import "ember-bootstrap/bootstrap";
 $courier: "Courier", Courier, monospace;
-// BODY
+$times: "Times New Roman";
+
+// BODY ========================================================================
 
 body {
   font-family: $courier;
@@ -9,60 +11,74 @@ body {
   padding: 0;
   height: 100vh;
   width: 100vw;
-
+  background: rgb(20,20,20);
 }
 
-// FONT
+// MAX SIZE ====================================================================
 
-.courier {
-  font-family: $courier;
+.command-console,
+.game-block,
+.game-area,
+.index-page,
+nav,
+.page-header,
+.app-title,
+.chat-window,
+.console-window {
+  width: 100%;
+  height: 100%;
 }
 
-// BUTTONS
+// FLEX DISPLAY ================================================================
+
+.chat-box,
+.input-box,
+.command-console,
+.game-block,
+.page-header,
+nav,
+.game-area {
+  display: flex;
+}
+
+// OVERWRITE OUTLINE DEFAULT ===================================================
+
+button:focus,
+input:focus,
+modal-content input:focus{
+  outline: 0 !important;
+}
+
+// BUTTONS =====================================================================
 
 button {
-  background-color: rgb(50,200,50);
-  font-family: inherit;
-  border-radius: 5px;
-  border-color: rgb(50,50,50);
-  border-width: 0px 2px 2px 0px;
-  box-sizing: border-box;
-  margin: 0 0.66em;
-  font-size: 2em;
-}
-
-button:focus {
-  outline: 0;
-}
-
-input:focus {
-  outline: 0;
+  color: black;
+  background: rgb(50,200,50);
+  margin: 0 0.5em;
+  border-width: 3px;
+  border-color: silver gray gray silver;
 }
 
 button:active {
-  border-width: 0;
-  border-width: 1px 0px 0px 1px;
+  background: rgb(0,150,0);
+  color: white;
+  border-color: gray silver silver gray;
 
 }
+.modal-button {
+  font-size: 1em;
+}
 
-
-
-// HEADER
+// HEADER ======================================================================
 
 header {
   width: 100%;
   height: 10vh;
-  background-color: white;
-  background: rgba(100,100,180,0.5);
 }
 
 .page-header {
   margin: 0;
-  width: 100%;
-  height: 10vh;
-  display: flex;
-  justify-content: space-between;
-
+  border: 0;
 }
 
 .page-header a{
@@ -70,15 +86,10 @@ header {
 }
 
 .app-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin: 0;
   padding: 1em;
   transition: 1s;
-  background: black;
   color: rgb(50,200,50);
-  height: 10vh;
 }
 
 .app-title:hover {
@@ -89,198 +100,151 @@ header {
 }
 
 nav {
-  display: flex;
   justify-content: flex-end;
   align-items: center;
-  height: 10vh;
-  width: 100%;
   margin-right: 0.5em;
 }
 
-nav h3 {
+.user-name {
   padding: 0 1em;
+  color: rgb(50,200,50);
 }
 
-// SIGNUP MODAL
+// MODAL =======================================================================
 
 .sign-up-table td {
   padding: 0.5em 1em;
 }
 
-// MAIN
+.modal-content span {
+  font-size: 2em;
+}
+
+// MAIN ========================================================================
 
 main {
-  box-sizing: border-box;
   margin: 0;
-  padding: 0.25em;
+  padding: 0.5em;
   height: 90vh;
   width: 100%;
   background-color: black;
 }
 
-// GAME AREA
+// METAL TEXTURE ===============================================================
 
+.index-page,
 .game-area {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background: rgb(175,175,175)
+  background-image: url("/images/background.jpg");
+  background-size: 100% 100%;
+  padding: 1em;
 }
+// COMPUTER WINDOW FORMAT ======================================================
 
-.command-console,
-.docs-area,
-.game-block {
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  padding: 0.5em;
-}
-
-//documents area
-.docs-area {
-  margin: 0.5em 0;
-}
-
-// COMMAND CONSOLE AREA
-
-.command-console {
-  display: flex;
-  flex-direction: column;
-  padding: 0.5em;
-}
-
-.console-window {
-  box-sizing: border-box;
-  height: 100%;
-  background-color: black;
+.chat-window,
+.console-window,
+.game-info,
+.input-box input {
+  background: rgb(20,20,20);
   color: rgb(50,200,50);
-  font-family: $courier;
-  padding: 0.5em;
-  margin-bottom: 0.5em;
+  border: 3px solid rgb(200,200,200);
+}
+
+.chat-window,
+.console-window,
+.game-info{
+  border-radius: 10px;
+  padding: 1em;
   word-break: break-all;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
-.console-input {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+// GAME AREA ===================================================================
+
+.command-console,
+.game-area,
+.chat-box {
+  flex-direction: column;
 }
 
-.console-input input,
-.chat-box input{
+.input-box {
   width: 100%;
-  background: black;
-  color: rgb(50,200,50);
+  padding: 0.5em 0;
+}
+
+.input-box input {
+  width: 100%;
   font-family: $courier;
-  border: 1px solid white;
-  padding: 0 1em;
+  padding: 0.5em;
+
 }
 
 .game-info {
   width: 40%;
-  background: black;
-  color: rgb(50,200,50);
-  margin-right: 0.25em;
+  margin-right: 1em;
 }
-
-// CHAT BOX AREA
 
 .chat-box {
   width: 60%;
-  margin-left: 0.25em;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
 }
 
-.chat-window {
-  height: 100%;
-  width: 100%;
-  background: black;
-  color: rgb(50,200,50);
-  padding: 0.5em;
-}
 
-.chat-input {
-  display: flex;
-  justify-content: center;
-  padding: 0.5em 0;
-  width: 100%;
-}
+// =============================================================================
+// MEDIA QUERIES ===============================================================
+// =============================================================================
 
-.chat-input input {
-  width: 100%;
-}
-
-// MODALS
 
 // DESKTOP QUERY
 
 @media (min-width: 1025px) {
   .game-area {
     flex-direction: row;
-    padding: 0.5em;
   }
 
-  .command-console,
-  .docs-area,
-  .game-block {
-    height: 100%;
+  .input-box {
+    padding: 0;
   }
 
-  .docs-area {
-    margin: 0 0.5em;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    background-color: blue;
+  .command-console {
+    padding: 1em;
   }
 
   .game-block {
     flex-direction: column;
-    height: 100%;
+    padding: 1em;
+    margin-right: 0em;
   }
 
-  .game-info {
+  .game-info,
+  .chat-box{
     height: 50%;
     width: 100%;
-    margin: 0 0 0.25em;
-    padding: 0;
   }
 
-  .chat-box {
-    height: 50%;
-    width: 100%;
-    margin: 0.25em 0 0 0;
-    padding: 0;
-    font-family: $courier;
+  .game-info,
+  .console-window,
+  .chat-window {
+    margin-bottom: 1em;
   }
-
 
 }
 
 // ODDLY SIZED VIEWS
 
 @media (max-width: 670px) {
-  .app-title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+
   .app-title h1 {
     font-size: 2em;
   }
 
   button {
-    font-size: 2em;
+    font-size: 1em;
   }
 
 }
 
 @media (max-width: 530px) {
+
   .app-title h1 {
     font-size: 1.3em;
   }
@@ -288,6 +252,7 @@ main {
 }
 
 @media (max-width: 470px) {
+
   button {
     font-size: 1em;
   }

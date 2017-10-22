@@ -9,7 +9,7 @@
 
     <nav>
       {{#if loggedIn}}
-        <p class="courier">{{user}}</p>
+        <h5 class="user-name">welcome, {{user}}</h5>
         <button type="button" class="navbar-btn" {{action "logOut"}}>Log Out</button>
       {{else}}
         <button type="button" class="navbar-btn" {{action (mut logInModal) true}}>Log In</button>
@@ -61,10 +61,8 @@
 
   {{/modal.body}}
   {{#modal.footer}}
-    {{#bs-button onClick=(action modal.close)}}Cancel{{/bs-button}}
-    <span onclick={{action modal.submit}}>
-      {{#bs-button type="success" onClick=(action modal.close)}}Sign Up{{/bs-button}}
-    </span>
+    <button type="button" name="button" class="modal-button" {{action modal.close}}>Cancel</button>
+    <button type="button" name="button" class="modal-button" {{action "signUp" modal}}>Sign Up</button>
   {{/modal.footer}}
 {{/bs-modal}}
 
@@ -96,10 +94,8 @@
 
   {{/modal.body}}
   {{#modal.footer}}
-    {{#bs-button onClick=(action modal.close)}}Cancel{{/bs-button}}
-    <span onclick={{action modal.submit}}>
-      {{#bs-button type="success" onClick=(action modal.close)}}Log In{{/bs-button}}
-    </span>
+    <button type="button" name="button" class="modal-button" {{action modal.close}}>Cancel</button>
+    <button type="button" name="button" class="modal-button" {{action "logIn" modal}}>Log In</button>
   {{/modal.footer}}
 {{/bs-modal}}
 

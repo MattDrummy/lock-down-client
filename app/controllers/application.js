@@ -9,23 +9,31 @@ export default Ember.Controller.extend({
   signUpEmail: "",
   signUpPassword: "",
   actions: {
-    logIn(){
-      this.set('user', this.get('logInUsername'))
-      this.set('logInPassword', "")
-      this.set('logInUsername', "")
-      this.set('loggedIn', true);
+    logIn(modal){
+      if (this.get("logInUsername") != "" || this.get("logInPassword") != "") {
+        this.set('user', this.get('logInUsername'))
+        this.set('logInPassword', "")
+        this.set('logInUsername', "")
+        this.set('loggedIn', true);
+        modal.close()
+      }
     },
     logOut(){
       this.set('loggedIn', false);
       this.set('user', "GUEST")
     },
-    signUp(){
-      this.set("user", this.get("signUpUsername"))
-      this.set('signUpUsername', '');
-      this.set('signUpEmail', '');
-      this.set('signUpPassword', '')
-      this.set('loggedIn', true);
-
+    signUp(modal){
+      if (this.get('signUpUsername') != "" || this.get("signUpEmail") != "" || this.get("signUpPassword") != "") {
+        this.set("user", this.get("signUpUsername"))
+        this.set('signUpUsername', '');
+        this.set('signUpEmail', '');
+        this.set('signUpPassword', '')
+        this.set('loggedIn', true);
+        modal.close()
+      }
+    },
+    closeModal(modal){
+      modal.close();
     }
   }
 });
