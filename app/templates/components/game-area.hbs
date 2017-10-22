@@ -1,16 +1,20 @@
-
   <div class="command-console">
     <div class="console-window">
-      <p>C://</p>
     </div>
     <div class="input-box">
-      {{input type=text placeholder="console input"}}
-      <button class="console-button" type="button" name="button">Enter</button>
+      <input type="text" name="consoleInput" value={{consoleInput}} placeholder="console input">
+      <button type="button" name="enter" {{action "consoleEnter" consoleInput}}>Enter</button>
     </div>
   </div>
   <div class="game-block">
     <div class="game-info">
-
     </div>
-    {{chat-box}}
+    <div class="chat-box">
+      <div class="chat-window">
+      </div>
+      <div class="input-box">
+        <input type="text" name="chatInput" value={{chatInput}} placeholder="chat input">
+        <button type="button" name="button" {{action "consoleEnter" chatInput}}>Send</button>
+      </div>
+    </div>
   </div>
