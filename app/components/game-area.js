@@ -4,7 +4,7 @@ export default Ember.Component.extend({
   classNames: ['game-area'],
   consoleInput: "",
   consoleMessages: [],
-  chatMessages: [],
+  gameChatMessages: [],
   init(){
     this._super(...arguments);
     const socket = this.get('socketIOService').socketFor(this.get('url'))
@@ -13,10 +13,10 @@ export default Ember.Component.extend({
       this.get('room'),
     ]);
     socket.on('close', (message)=>{
-      this.set('chatMessages', this.get('chatMessages').concat(message))
+      this.set('gameChatMessages', this.get('gameChatMessages').concat(message))
     });
     socket.on('message', (message)=>{
-      this.set('chatMessages', this.get('chatMessages').concat(message))
+      this.set('gameChatMessages', this.get('gameChatMessages').concat(message))
     });
   },
   willDestroyElement(){
@@ -26,6 +26,7 @@ export default Ember.Component.extend({
       this.get('user'),
       this.get('room'),
     ]);
+    this.set('gameChatMessages', []);
     this.get('socketIOService').closeSocketFor(this.get('url'))
   },
   actions: {
