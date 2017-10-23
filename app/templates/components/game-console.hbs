@@ -1,0 +1,11 @@
+{{yield}}
+
+  <div class="console-window">
+    {{#each gameConsoleMessages as |message|}}
+      <p>{{message}}</p>
+    {{/each}}
+  </div>
+  <div class="input-box">
+    {{input label="consoleInput" type="text" name="gameConsoleInput" value=gameConsoleInput placeholder="console input" enter="consoleEnter"}}
+    <button type="button" name="enter" {{action "consoleEnter"}}>Enter</button>
+  </div>
