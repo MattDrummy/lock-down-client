@@ -3,7 +3,7 @@
 
 module.exports = function(environment) {
   let ENV = {
-    'ember-websockets': {
+    'ember-websockets':{
       socketIO: true,
     },
     modulePrefix: 'lock-down-client',

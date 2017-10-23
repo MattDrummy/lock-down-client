@@ -3,5 +3,5 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   applicationController: Ember.inject.controller('application'),
   user: Ember.computed.alias('applicationController.user'),
-
+  room: Ember.computed.alias('applicationController.room'),
 });

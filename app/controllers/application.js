@@ -10,6 +10,7 @@ export default Ember.Controller.extend({
   signUpUsername: "",
   signUpEmail: "",
   signUpPassword: "",
+  room: "test",
   actions: {
     logIn(modal){
       if (this.get("logInUsername") != "" || this.get("logInPassword") != "") {
