@@ -3,13 +3,13 @@
   <div class="page-header">
     {{#link-to "index"}}
       <div class="app-title">
-        <h1 class="courier">lockDown()</h1>
+        <h1 class="courier">$lockDown</h1>
       </div>
     {{/link-to}}
 
     <nav>
       {{#if loggedIn}}
-        <h5 class="user-name">welcome, {{user}}</h5>
+        <h5 class="user-name">{{user}}</h5>
         <button type="button" class="navbar-btn" {{action "logOut"}}>Log Out</button>
       {{else}}
         <button type="button" class="navbar-btn" {{action (mut logInModal) true}}>Log In</button>
