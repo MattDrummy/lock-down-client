@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  loggedIn: true,
+  loggedIn: false,
   user: Ember.computed(()=>{
     return `guest${Math.ceil(Math.random()*9999)}`
   }),
@@ -10,12 +10,10 @@ export default Ember.Controller.extend({
   signUpUsername: "",
   signUpEmail: "",
   signUpPassword: "",
-  room: "test",
-  url: 'ws://localhost:7000',
+  room: "TEST",
   socketIOService: Ember.inject.service('socket-io'),
-  socket: Ember.computed(()=>{
-    return this.get('socketIOService').socketFor(this.get("url"));
-  }),
+  url: 'ws://localhost:7000',
+
   actions: {
     logIn(modal){
       if (this.get("logInUsername") != "" || this.get("logInPassword") != "") {
