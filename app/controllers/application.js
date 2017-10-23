@@ -1,8 +1,10 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  loggedIn: false,
-  user: "",
+  loggedIn: true,
+  user: Ember.computed(()=>{
+    return `guest${Math.ceil(Math.random()*9999)}`
+  }),
   logInUsername: "",
   logInPassword: "",
   signUpUsername: "",
@@ -20,7 +22,7 @@ export default Ember.Controller.extend({
     },
     logOut(){
       this.set('loggedIn', false);
-      this.set('user', "GUEST")
+      this.set('user', `guest${Math.ceil(Math.random()*9999)}`)
     },
     signUp(modal){
       if (this.get('signUpUsername') != "" || this.get("signUpEmail") != "" || this.get("signUpPassword") != "") {

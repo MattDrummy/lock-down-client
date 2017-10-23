@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  consoleInput: "",
-  chatInput: "",
+  applicationController: Ember.inject.controller('application'),
+  user: Ember.computed.alias('applicationController.user'),
+
 });

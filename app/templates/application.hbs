@@ -22,7 +22,9 @@
 </header>
 
 <main>
-  {{outlet}}
+  {{
+    outlet
+  }}
 </main>
 
 {{#bs-modal open=signUpModal onSubmit=(action "signUp") onHidden=(action (mut signUpModal) false) as |modal|}}
