@@ -31,6 +31,7 @@ export default Ember.Component.extend({
   },
   actions: {
     consoleEnter(){
+      this.set('consoleInput', '')
     },
     chatEnter(){
       const socket = this.get('socketIOService').socketFor(this.get('url'))
