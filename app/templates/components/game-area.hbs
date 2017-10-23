@@ -11,15 +11,15 @@
   <div class="game-block">
     <div class="game-info">
     </div>
-    <div class="chat-box">
-      <div class="chat-window">
-        {{#each chatMessages as |message|}}
-          <p>{{message}}</p>
-        {{/each}}
-      </div>
-      <div class="input-box">
-        {{input label="chatInput" type="text" name="chatInput" value=chatInput placeholder="console input" enter="chatEnter"}}
-        <button type="button" {{action "chatEnter"}}>Send</button>
-      </div>
+    <div class="game-chat-area">
+      {{
+        chat-box
+        chatMessages=chatMessages
+        user=user
+        room=room
+        socketIOService=socketIOService
+        url=url
+      }}
     </div>
+
   </div>

@@ -3,7 +3,6 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['game-area'],
   consoleInput: "",
-  chatInput: "",
   consoleMessages: [],
   chatMessages: [],
   init(){
@@ -33,13 +32,5 @@ export default Ember.Component.extend({
     consoleEnter(){
       this.set('consoleInput', '')
     },
-    chatEnter(){
-      const socket = this.get('socketIOService').socketFor(this.get('url'))
-      socket.emit("message", [
-        this.get('room'),
-        `${this.get('user')}: ${this.get('chatInput')}`
-      ])
-      this.set('chatInput', '')
-    }
   },
 });
