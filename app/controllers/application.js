@@ -13,12 +13,65 @@ export default Ember.Controller.extend({
   room: "TEST",
   socketIOService: Ember.inject.service('socket-io'),
   url: 'ws://localhost:7000',
-  operatorCommands: [
-
+  sharedCommands: [
+    {
+      command: "--help",
+      options: [],
+      run: (data)=>{
+        data.commandList.forEach((e)=>{
+          data.readOut.pushObject(`${data.currNode} ${data.command}`)
+          data.readOut.pushObject(`${e.command} : ${e.desc}`);
+        })
+      },
+      desc: "lists commands and options for given command, or lists all commands if given on its own."
+    },
   ],
-  operativeCommands: [
+  operatorCommands: Ember.computed(function(){
+    return this.get('sharedCommands').concat([
+      {
+        command: "whoami",
+        options: [],
+        run: (data)=>{
+          let user = this.get('user')
+          data.readOut.pushObject(`${data.currNode} ${data.command}`)
+          data.readOut.pushObject(`USER = ${user}`)
+          data.readOut.pushObject(`ROLE = engineer`)
+          data.readOut.pushObject(`PASSWORD = ${data.password}`)
+        }
+      },
+      {
+        command: "whereami",
+        options: [],
+        run: (data)=>{
+          data.readOut.pushObject(`${data.currNode} ${data.command}`);
+          data.readOut.pushObject(`LOCATION = engineering`);
+          data.readOut.pushObject(`SERVER PORT = ${data.serverPort}`);
+        }
+      }
+    ])
+  }),
+  operativeCommands: Ember.computed(function(){
+    return this.get('sharedCommands').concat([
+      {
+        command: `door`,
+        options: [
+          `--open [password] : opens the door with supplied password`,
+          `--init : initializes the door's connection to the console, requires server connection to console`,
+          `--code : prints the code for the door, base64 encoded`
+        ]
+      }
+    ])
+  }),
+  operatorFileStructure: Ember.computed(()=>{
+    return {
 
-  ],
+    }
+  }),
+  operativeFileStructure: Ember.computed(()=>{
+    return {
+
+    }
+  }),
   actions: {
     logIn(modal){
       if (this.get("logInUsername") != "" || this.get("logInPassword") != "") {

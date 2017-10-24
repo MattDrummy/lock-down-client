@@ -244,6 +244,9 @@ main {
   width: 100%;
 }
 
+.console-window {
+  overflow-y: auto;
+}
 // LOBBY AREA ==================================================================
 
 .game-lobby {

@@ -4,41 +4,49 @@ export default Ember.Component.extend({
   classNames: ['chat-box'],
   chatInput: "",
   lobby: "lobby",
-  socketIOService: Ember.inject.service('socket-io'),
-  url: 'ws://localhost:7000',
   lobbyChatMessages: [],
+  fixScroll: (targetDiv)=>{
+    setTimeout(()=>{
+      let objDiv = document.getElementsByClassName(targetDiv)[0]
+      objDiv.scrollTop = objDiv.scrollHeight;
+    })
+  },
   init(){
+    this.set('lobbyChatMessages',[])
     this._super(...arguments);
     const socket = this.get('socketIOService').socketFor(this.get('url'))
-    socket.emit('open', [
-      this.get('user'),
-      this.get('lobby'),
-    ]);
+    let user = this.get('user')
+    let lobby = this.get('lobby')
+    let lobbyChatMessages = this.get('lobbyChatMessages')
+    socket.emit('open', [user,lobby]);
     socket.on('close', (message)=>{
-      this.set('lobbyChatMessages', this.get('lobbyChatMessages').concat(message))
+      lobbyChatMessages.pushObject(message)
+      this.get('fixScroll')('chat-window')
     });
     socket.on('message', (message)=>{
-      this.set('lobbyChatMessages', this.get('lobbyChatMessages').concat(message))
+      lobbyChatMessages.pushObject(message)
+      this.get('fixScroll')('chat-window')
     });
+
   },
   willDestroyElement(){
     this._super(...arguments);
     const socket = this.get('socketIOService').socketFor(this.get('url'));
-    socket.emit('close', [
-      this.get('user'),
-      this.get('lobby'),
-    ]);
+    let user = this.get('user');
+    let lobby = this.get('lobby');
+    socket.emit('close', [user,lobby]);
     this.set('lobbyChatMessages', []);
     this.get('socketIOService').closeSocketFor(this.get('url'));
   },
   actions: {
     chatEnter(){
       const socket = this.get('socketIOService').socketFor(this.get('url'))
-      socket.emit("message", [
-        this.get('lobby'),
-        `${this.get('user')}: ${this.get('chatInput')}`
-      ])
+      let lobby = this.get('lobby');
+      let user = this.get('user');
+      let chatInput = this.get('chatInput')
+      socket.emit("message", [lobby,`${user}: ${chatInput}`])
       this.set('chatInput', '')
+      this.get('fixScroll')('chat-window')
     }
   }
 });

@@ -2,6 +2,10 @@
 
   <div class="command-console">
     <div class="console-window">
+      <p>{{currNode}}</p>
+      {{#each consoleMessages as |message|}}
+        <p>{{message}}</p>
+      {{/each}}
     </div>
     <div class="input-box">
       {{input label="consoleInput" type="text" name="consoleInput" value=consoleInput placeholder="console input" enter="consoleEnter"}}
@@ -10,16 +14,22 @@
   </div>
   <div class="game-block">
     <div class="game-info">
+      <p>Welcome to the game-page, your current role is {{role}}</p>
+      <p>If you're not sure what to do, you can type --help to get started</p>
     </div>
     <div class="game-chat-area">
-      {{
-        chat-box
-        gameChatMessages=gameChatMessages
-        user=user
-        room=room
-        socketIOService=socketIOService
-        url=url
-      }}
+      <div class="chat-box">
+        <div class="chat-window">
+          {{#each gameChatMessages as |message|}}
+            <p>{{message}}</p>
+          {{/each}}
+        </div>
+        <div class="input-box">
+          {{input label="chatInput" type="text" name="chatInput" value=chatInput placeholder="console input" enter="chatEnter"}}
+          <button type="button" {{action "chatEnter"}}>Send</button>
+        </div>
+      </div>
+
     </div>
 
   </div>
