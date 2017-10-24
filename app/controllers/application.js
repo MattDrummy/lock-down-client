@@ -13,7 +13,6 @@ export default Ember.Controller.extend({
   room: "TEST",
   socketIOService: Ember.inject.service('socket-io'),
   url: 'ws://localhost:7000',
-
   actions: {
     logIn(modal){
       if (this.get("logInUsername") != "" || this.get("logInPassword") != "") {

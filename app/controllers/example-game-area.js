@@ -5,5 +5,6 @@ export default Ember.Controller.extend({
   user: Ember.computed.alias('appCont.user'),
   room: Ember.computed.alias('appCont.room'),
   socketIOService: Ember.computed.alias('appCont.socketIOService'),
-  url: Ember.computed.alias('appCont.url')
+  url: Ember.computed.alias('appCont.url'),
+
 });
