@@ -11,6 +11,7 @@ export default Ember.Controller.extend({
   operatorFileStructure: Ember.computed.alias('appCont.operatorFileStructure'),
   operativeFileStructure: Ember.computed.alias('appCont.operativeFileStructure'),
   role: "operator",
+  operatorLocation: "engineering",
   operatorPassword: Ember.computed(()=>{
     let result = ''
     let alpha = ['a','b','c','d',
@@ -31,15 +32,24 @@ export default Ember.Controller.extend({
     }
     return result;
   }),
-  serverPort: Ember.computed(()=>{
-    let num = Math.floor(Math.random()*1000);
-    let result = '';
-    if (num < 100) {
-      result += "00"
-    } else if (num < 1000) {
-      result += "0"
+  operatorPort: Ember.computed(()=>{
+    let num = Math.floor(Math.random()*9000) + 1000;
+    return num.toString();
+  }),
+  operativePort: Ember.computed(function(){
+    let num = Math.floor(Math.random()*9000) + 1000;
+    while (num == this.get('serverPort')) {
+      num = Math.floor(Math.random()*9000) + 1000;
     }
-    result += num.toString();
-    return result;
+    return num;
+  }),
+  operativeLocation: Ember.computed(()=>{
+    let locations = [
+      "botany",
+      "hanger",
+      "bridge",
+      "medbay",
+    ]
+    return locations[Math.floor(Math.random()*locations.length)];
   })
 });

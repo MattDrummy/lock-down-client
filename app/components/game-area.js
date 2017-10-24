@@ -6,8 +6,9 @@ export default Ember.Component.extend({
   chatInput: "",
   consoleMessages: [],
   gameChatMessages: [],
-  currNode: "C://",
-  updateConsole: false,
+  currNode: Ember.computed(function(){
+    return this.get(`${this.get('role')}FileStructure`)
+  }),
   fixScroll: (targetDiv)=>{
     setTimeout(()=>{
       let objDiv = document.getElementsByClassName(targetDiv)[0]
@@ -55,7 +56,7 @@ export default Ember.Component.extend({
       let commandList = this.get(`${role}Commands`);
       let fileStructure = this.get(`${role}FileStructure`);
       let operatorPassword = this.get(`operatorPassword`);
-      let serverPort = this.get(`serverPort`);
+      let port = this.get(`${role}Port`);
       let data = {
         commandList,
         fileStructure,
@@ -64,8 +65,8 @@ export default Ember.Component.extend({
         command,
         option,
         operatorPassword,
-        serverPort,
-        optionParams
+        port,
+        optionParams,
       }
       if (command == "change") {
         this.set('role', role == "operator" ? "operative" : "operator");
@@ -89,7 +90,6 @@ export default Ember.Component.extend({
         }
       }
       readOut.pushObject(currNode)
-      this.set('updateConsole', true);
       this.set('consoleInput', '')
       this.get('fixScroll')('console-window')
 

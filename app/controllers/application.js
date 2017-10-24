@@ -28,9 +28,20 @@ export default Ember.Controller.extend({
         })
       },
     },
+    {
+      command: "whereami",
+      options: [],
+      desc: "prints out information on the server's confirmation",
+      run: (data)=>{
+        data.readOut.pushObject(`${data.currNode} ${data.command}`);
+        data.readOut.pushObject(`LOCATION = ${data.currLocation}`);
+        data.readOut.pushObject(`PORT = ${data.port}`);
+      }
+    },
+
   ],
 
-  // COMMANDS FOR THE OPERATOR
+  // OPERATOR COMMANDS
 
   operatorCommands: Ember.computed(function(){
     return this.get('sharedCommands').concat([
@@ -46,16 +57,6 @@ export default Ember.Controller.extend({
           data.readOut.pushObject(`PASSWORD = ${data.operatorPassword}`)
         }
       },
-      {
-        command: "whereami",
-        options: [],
-        desc: "prints out information on the server's confirmation",
-        run: (data)=>{
-          data.readOut.pushObject(`${data.currNode} ${data.command}`);
-          data.readOut.pushObject(`LOCATION = engineering`);
-          data.readOut.pushObject(`SERVER PORT = ${data.serverPort}`);
-        }
-      }
     ])
   }),
 
@@ -67,8 +68,6 @@ export default Ember.Controller.extend({
         command: `door`,
         options: [
           `--open [password] : opens the door with supplied password`,
-          `--init : initializes the door's connection to the console, requires server connection to console`,
-          `--code : prints the code for the door, base64 encoded`
         ],
         desc: "access the door's operations, type door --help to get a list of options",
         run: (data)=>{
@@ -84,12 +83,6 @@ export default Ember.Controller.extend({
               } else {
                 data.readOut.pushObject("error: incorrect password")
               }
-              break;
-            case "--init":
-
-              break;
-            case "--code":
-
               break;
             case "--help":
               operation.options.forEach((e)=>{
@@ -108,12 +101,24 @@ export default Ember.Controller.extend({
   }),
   operatorFileStructure: Ember.computed(()=>{
     return {
-
+      path: "C://",
+      bin: {
+        path: "C://bin",
+      },
+      log: {
+        path: "C://log",
+      },
     }
   }),
   operativeFileStructure: Ember.computed(()=>{
     return {
-
+      path: "C://",
+      bin: {
+        path: "C://bin",
+      },
+      log: {
+        path: "C://log",
+      },
     }
   }),
   actions: {
@@ -128,7 +133,7 @@ export default Ember.Controller.extend({
     },
     logOut(){
       this.set('loggedIn', false);
-      this.set('user', `guest${Math.ceil(Math.random()*9999)}`)
+      this.set('user', `guest${Math.floor(Math.random()*9000) + 1000}`)
     },
     signUp(modal){
       if (this.get('signUpUsername') != "" || this.get("signUpEmail") != "" || this.get("signUpPassword") != "") {
