@@ -22,7 +22,7 @@ export default Ember.Controller.extend({
       options: [],
       desc: "lists commands and options for given command, or lists all commands if given on its own.",
       run: (data)=>{
-        data.readOut.pushObject(`${data.currNode} ${data.command}`)
+        data.readOut.pushObject(`${data.currPath} ${data.command}`)
         data.commandList.forEach((e)=>{
           data.readOut.pushObject(`${e.command} : ${e.desc}`);
         })
@@ -33,7 +33,7 @@ export default Ember.Controller.extend({
       options: [],
       desc: "prints out information on the server's confirmation",
       run: (data)=>{
-        data.readOut.pushObject(`${data.currNode} ${data.command}`);
+        data.readOut.pushObject(`${data.currPath} ${data.command}`);
         data.readOut.pushObject(`LOCATION = ${data.currLocation}`);
         data.readOut.pushObject(`PORT = ${data.port}`);
       }
@@ -51,7 +51,7 @@ export default Ember.Controller.extend({
         desc: "prints information on the currently logged in user",
         run: (data)=>{
           let user = this.get('user')
-          data.readOut.pushObject(`${data.currNode} ${data.command}`)
+          data.readOut.pushObject(`${data.currPath} ${data.command}`)
           data.readOut.pushObject(`USER = ${user}`)
           data.readOut.pushObject(`ROLE = engineer`)
           data.readOut.pushObject(`PASSWORD = ${data.operatorPassword}`)
@@ -71,7 +71,7 @@ export default Ember.Controller.extend({
         ],
         desc: "access the door's operations, type door --help to get a list of options",
         run: (data)=>{
-          data.readOut.pushObject(`${data.currNode} ${data.command}`)
+          data.readOut.pushObject(`${data.currPath} ${data.command}`)
           let operation = data.commandList.filter((e)=>{
             return e.command == data.command
           })[0]

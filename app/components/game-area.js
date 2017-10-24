@@ -51,26 +51,29 @@ export default Ember.Component.extend({
       let option = this.get('consoleInput').split(' ')[1];
       let optionParams = this.get('consoleInput').split(' ').slice(2)
       let role = this.get('role');
-      let currNode = this.get('currNode');
+      let currPath = this.get('currNode').path;
       let readOut = this.get('consoleMessages');
       let commandList = this.get(`${role}Commands`);
       let fileStructure = this.get(`${role}FileStructure`);
       let operatorPassword = this.get(`operatorPassword`);
       let port = this.get(`${role}Port`);
+      let currLocation = this.get(`${role}Location`);
+      let room = this.get('room');
       let data = {
         commandList,
         fileStructure,
         readOut,
-        currNode,
+        currPath,
         command,
         option,
         operatorPassword,
         port,
         optionParams,
+        currLocation,
       }
       if (command == "change") {
         this.set('role', role == "operator" ? "operative" : "operator");
-        readOut.pushObject(`${currNode} ${this.get('consoleInput')}`)
+        readOut.pushObject(`${currPath} ${this.get('consoleInput')}`)
         readOut.pushObject(`Changed role to ${this.get('role')}`);
       } else {
         let operation = commandList.filter((e)=>{
@@ -79,17 +82,16 @@ export default Ember.Component.extend({
         if (operation) {
           if (operation.run(data)) {
             const socket = this.get('socketIOService').socketFor(this.get('url'))
-            let room = this.get('room');
             socket.emit("message", [room, `YOU WIN!`])
             this.set('chatInput', '')
             this.get('fixScroll')('chat-window')
           }
         } else {
-          readOut.pushObject(`${currNode} ${this.get('consoleInput')}`)
+          readOut.pushObject(`${currPath} ${this.get('consoleInput')}`)
           readOut.pushObject("no such command exists")
         }
       }
-      readOut.pushObject(currNode)
+      readOut.pushObject(currPath)
       this.set('consoleInput', '')
       this.get('fixScroll')('console-window')
 
