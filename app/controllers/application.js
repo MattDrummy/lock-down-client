@@ -10,7 +10,6 @@ export default Ember.Controller.extend({
   signUpUsername: "",
   signUpEmail: "",
   signUpPassword: "",
-  room: "TEST",
   socketIOService: Ember.inject.service('socket-io'),
   url: 'ws://localhost:7000',
 
