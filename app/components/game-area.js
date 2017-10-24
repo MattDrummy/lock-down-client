@@ -48,12 +48,13 @@ export default Ember.Component.extend({
     consoleEnter(){
       let command = this.get('consoleInput').split(' ')[0];
       let option = this.get('consoleInput').split(' ')[1];
+      let optionParams = this.get('consoleInput').split(' ').slice(2)
       let role = this.get('role');
       let currNode = this.get('currNode');
       let readOut = this.get('consoleMessages');
       let commandList = this.get(`${role}Commands`);
       let fileStructure = this.get(`${role}FileStructure`);
-      let password = this.get(`operatorPassword`);
+      let operatorPassword = this.get(`operatorPassword`);
       let serverPort = this.get(`serverPort`);
       let data = {
         commandList,
@@ -62,19 +63,28 @@ export default Ember.Component.extend({
         currNode,
         command,
         option,
-        password,
-        serverPort
+        operatorPassword,
+        serverPort,
+        optionParams
       }
       if (command == "change") {
         this.set('role', role == "operator" ? "operative" : "operator");
-        readOut.pushObject(`Changed role to ${role}`);
+        readOut.pushObject(`${currNode} ${this.get('consoleInput')}`)
+        readOut.pushObject(`Changed role to ${this.get('role')}`);
       } else {
         let operation = commandList.filter((e)=>{
           return e.command == command
         })[0]
         if (operation) {
-          operation.run(data)
+          if (operation.run(data)) {
+            const socket = this.get('socketIOService').socketFor(this.get('url'))
+            let room = this.get('room');
+            socket.emit("message", [room, `YOU WIN!`])
+            this.set('chatInput', '')
+            this.get('fixScroll')('chat-window')
+          }
         } else {
+          readOut.pushObject(`${currNode} ${this.get('consoleInput')}`)
           readOut.pushObject("no such command exists")
         }
       }
