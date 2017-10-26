@@ -1,5 +1,7 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 import ENV from 'lock-down-client/config/environment';
+
 export default DS.RESTAdapter.extend({
   host: ENV.apiHost,
   namespace: 'api/v1',
