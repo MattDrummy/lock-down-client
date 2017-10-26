@@ -3,13 +3,16 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   loggedIn: false,
   user: Ember.computed(()=>{
-    return `guest${Math.ceil(Math.random()*9999)}`
+    localStorage.user = `guest${Math.ceil(Math.random()*9999)}`
+    return localStorage.user
   }),
   logInUsername: "",
   logInPassword: "",
   signUpUsername: "",
   signUpEmail: "",
   signUpPassword: "",
+  logInError: false,
+  signUpError: false,
   socketIOService: Ember.inject.service('socket-io'),
   url: 'ws://localhost:7000',
 
@@ -98,6 +101,10 @@ export default Ember.Controller.extend({
       }
     ])
   }),
+
+  // FILE STRUCTURE FOR OPERATOR
+
+
   operatorFileStructure: Ember.computed(()=>{
     return {
       path: "C://",
@@ -109,6 +116,9 @@ export default Ember.Controller.extend({
       },
     }
   }),
+
+  // FILE STRUCTURE FOR OPERATIVE
+
   operativeFileStructure: Ember.computed(()=>{
     return {
       path: "C://",
@@ -120,37 +130,60 @@ export default Ember.Controller.extend({
       },
     }
   }),
+
+  // ACTIONS
+  
   actions: {
     logIn(modal){
-      if (this.get("logInUsername") != "" || this.get("logInPassword") != "") {
+      this.set('logInError', false)
+      if (
+        this.get("logInUsername") != "" &&
+        this.get("logInPassword") != ""
+      ) {
         this.set('user', this.get('logInUsername'))
         this.set('logInPassword', "")
         this.set('logInUsername', "")
         this.set('loggedIn', true);
         modal.close()
+      } else {
+        this.set('logInError', true)
       }
     },
     logOut(){
       this.set('loggedIn', false);
-      this.set('user', `guest${Math.floor(Math.random()*9000) + 1000}`)
+      localStorage.user = `guest${Math.floor(Math.random()*9000) + 1000}`;
+      localStorage.removeItem('token');
+      this.set('user', localStorage.user);
     },
     signUp(modal){
-      if (this.get('signUpUsername') != "" || this.get("signUpEmail") != "" || this.get("signUpPassword") != "") {
-        this.set("user", this.get("signUpUsername"))
+      this.set('signUpError', false);
+      if (
+        this.get('signUpUsername') != "" &&
+        this.get("signUpEmail") != "" &&
+        this.get("signUpPassword") != "" &&
+        this.get('signUpEmail').includes('@') &&
+        this.get('signUpEmail').split("@")[1].includes('.') &&
+      ) {
+        this.set("user", this.get("signUpUsername"));
         this.set('signUpUsername', '');
         this.set('signUpEmail', '');
-        this.set('signUpPassword', '')
+        this.set('signUpPassword', '');
         this.set('loggedIn', true);
         modal.close()
+      } else {
+        this.set('signUpError', true)
       }
     },
     closeModal(modal){
       this.set('signUpUsername', '');
       this.set('signUpEmail', '');
-      this.set('signUpPassword', '')
-      this.set('logInPassword', "")
-      this.set('logInUsername', "")
+      this.set('signUpPassword', '');
+      this.set('logInPassword', "");
+      this.set('logInUsername', "");
+      this.set('logInError', false);
+      this.set('signUpError', false);
       modal.close();
-    }
+    },
+
   }
 });

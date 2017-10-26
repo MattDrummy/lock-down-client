@@ -9,12 +9,11 @@
 
     <nav>
       {{#if loggedIn}}
-        <h5 class="user-name">{{user}}</h5>
+        <button type="button" name="navbar-btn" {{action "showUser"}}>{{user}}</button>
         <button type="button" class="navbar-btn" {{action "logOut"}}>Log Out</button>
       {{else}}
         <button type="button" class="navbar-btn" {{action (mut logInModal) true}}>Log In</button>
         <button type="button" class="navbar-btn" onClick={{action (mut signUpModal) true}}>Sign Up</button>
-
       {{/if}}
     </nav>
 
@@ -28,69 +27,80 @@
 </main>
 
 {{#bs-modal open=signUpModal onSubmit=(action "signUp") onHidden=(action (mut signUpModal) false) as |modal|}}
-  {{#modal.body}}
-  <h4>Sign Up</h4>
-  <table class="sign-up-table">
-    <tr>
-      <td>
-        <label for="username">username</label>
-      </td>
-      <td>
-        {{input label="username" type="text" autofocus="autofocus" name="username" value=signUpUsername}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <label for="email">email</label>
-      </td>
-      <td>
-        {{input type="email" name="email" value=signUpEmail placeholder="name@email.com"}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <label for="password">password</label>
-      </td>
-      <td>
-        {{input type="password" name="password" value=signUpPassword}}
-      </td>
-    </tr>
-  </table>
+  <form onsubmit={{action "signUp" modal preventDefault=true}}>
+    {{#modal.body}}
+    <h4>Sign Up</h4>
+    <table class="sign-up-table">
+      <tr>
+        <td>
+          <label for="username">username</label>
+        </td>
+        <td>
+          {{input label="username" type="text" autofocus="autofocus" name="username" value=signUpUsername}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="email">email</label>
+        </td>
+        <td>
+          {{input type="email" name="email" value=signUpEmail placeholder="name@email.com"}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="password">password</label>
+        </td>
+        <td>
+          {{input type="password" name="password" value=signUpPassword}}
+        </td>
+      </tr>
+    </table>
+    {{#if signUpError}}
+      <p class="error">ERROR: sign up information is not completed correctly, please check your information and then try again.</p>
+    {{/if}}
+    {{/modal.body}}
+    {{#modal.footer}}
+      <button type="button" name="button" class="modal-button" {{action "closeModal" modal}}>Cancel</button>
+      <button type="submit" name="button" class="modal-button" {{action "signUp" modal preventDefault=true}}>Sign Up</button>
+    {{/modal.footer}}
+  </form>
+  {{/bs-modal}}
 
-  {{/modal.body}}
-  {{#modal.footer}}
-    <button type="button" name="button" class="modal-button" {{action "closeModal" modal}}>Cancel</button>
-    <button type="button" name="button" class="modal-button" {{action "signUp" modal}}>Sign Up</button>
-  {{/modal.footer}}
-{{/bs-modal}}
+  {{#bs-modal open=logInModal onSubmit=(action "logIn") onHidden=(action (mut logInModal) false) as |modal|}}
+  <form onsubmit={{action "logIn" modal preventDefault=true}}>
 
-{{#bs-modal open=logInModal onSubmit=(action "logIn") onHidden=(action (mut logInModal) false) as |modal|}}
-  {{#modal.body}}
-  <h4>Log In</h4>
-  <table class="sign-up-table">
-    <tr>
-      <td>
-        <label for="username">username</label>
-      </td>
-      <td>
-        {{input label="username" type="text" autofocus="autofocus" name="username" value=logInUsername}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <label for="password">password</label>
-      </td>
-      <td>
-        {{input type="password" name="password" value=logInPassword}}
-      </td>
-    </tr>
-  </table>
+    {{#modal.body}}
+    <h4>Log In</h4>
+    <table class="sign-up-table">
+      <tr>
+        <td>
+          <label for="username">username</label>
+        </td>
+        <td>
+          {{input label="username" type="text" autofocus="autofocus" name="username" value=logInUsername}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="password">password</label>
+        </td>
+        <td>
+          {{input type="password" name="password" value=logInPassword}}
+        </td>
+      </tr>
+    </table>
 
-  {{/modal.body}}
-  {{#modal.footer}}
-    <button type="button" name="button" class="modal-button" {{action "closeModal" modal}}>Cancel</button>
-    <button type="button" name="button" class="modal-button" {{action "logIn" modal}}>Log In</button>
-  {{/modal.footer}}
+    {{#if logInError}}
+      <p class="error">ERROR: log in attempt failed, check your username and password and then try again.</p>
+    {{/if}}
+    {{/modal.body}}
+    {{#modal.footer}}
+      <button type="button" name="button" class="modal-button" {{action "closeModal" modal}}>Cancel</button>
+      <button type="submit" name="button" class="modal-button" {{action "logIn" modal preventDefault=true}}>Log In</button>
+    {{/modal.footer}}
+  </form>
+
 {{/bs-modal}}
 
 <!-- LOG IN MODAL -->

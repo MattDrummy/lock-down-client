@@ -11,7 +11,12 @@ body {
   padding: 0;
   height: 100vh;
   width: 100vw;
-  background: rgb(20,20,20);
+  background: #000700;
+}
+
+.error {
+  color: red;
+  transition: 1s;
 }
 
 // MAX SIZE ====================================================================
@@ -199,7 +204,7 @@ main {
 .input-box input,
 .index-header,
 .index-main, {
-  background: rgb(30,30,30);
+  background: #000700;
   color: rgb(50,200,50);
   border: 3px solid rgb(200,200,200);
 }
