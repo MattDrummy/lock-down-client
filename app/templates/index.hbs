@@ -4,10 +4,9 @@
     <h4>An asymmetrical co-operative tech themed game!</h4>
   </div>
   <div class="start-game">
-    <button type="button" name="button" {{action "createGame"}}>CREATE GAME</button>
+    <button type="button" name="button" {{action (mut createGameModal) true}}>CREATE GAME</button>
     {{#link-to "game-lobby" tagName="button"}}JOIN GAME{{/link-to}}
   </div>
-
 
   <div class="index-main">
     <p>In this game, you are stranded aboard a space station that has been deserted.  Most systems are offline, and most doors are on lockDown().  However, you are not alone!  There is another person stranded aboard the staiton, and with their help, you both may be able to escape to tell this tale.</p>
@@ -16,5 +15,17 @@
     {{#link-to "example-game-area"}} To see an example game area, click here! {{/link-to}}
   </div>
 
-
 </div>
+
+{{#bs-modal open=createGameModal onSubmit=(action "createGame" modal) onHidden=(action (mut createGameModal) false) as |modal|}}
+
+  {{#modal.body}}
+    <h4>Create a New Game</h4>
+
+  {{/modal.body}}
+  {{#modal.footer}}
+    <button type="button" name="button" class="modal-button" {{action "closeModal" modal}}>Cancel</button>
+    <button type="submit" name="button" class="modal-button" {{action "createGame" modal preventDefault=true}}>Log In</button>
+  {{/modal.footer}}
+
+{{/bs-modal}}
