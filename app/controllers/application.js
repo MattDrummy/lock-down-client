@@ -132,7 +132,7 @@ export default Ember.Controller.extend({
   }),
 
   // ACTIONS
-  
+
   actions: {
     logIn(modal){
       this.set('logInError', false)
@@ -162,7 +162,7 @@ export default Ember.Controller.extend({
         this.get("signUpEmail") != "" &&
         this.get("signUpPassword") != "" &&
         this.get('signUpEmail').includes('@') &&
-        this.get('signUpEmail').split("@")[1].includes('.') &&
+        this.get('signUpEmail').split("@")[1].includes('.')
       ) {
         this.set("user", this.get("signUpUsername"));
         this.set('signUpUsername', '');
