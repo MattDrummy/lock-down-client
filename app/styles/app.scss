@@ -65,21 +65,21 @@ modal-content input:focus{
 // BUTTONS =====================================================================
 
 button {
-  color: black;
-  background: rgb(50,200,50);
-  margin: 0 0.5em;
-  border-width: 3px;
-  border-color: silver gray gray silver;
+  color: black !important;
+  background: rgb(50,200,50) !important;
+  margin: 0 0.5em !important;
+  border-width: 3px !important;
+  border-color: silver gray gray silver !important;
 }
 
 button:active {
-  background: rgb(0,150,0);
-  color: white;
-  border-color: gray silver silver gray;
+  background: rgb(0,150,0) !important;
+  color: white !important;
+  border-color: gray silver silver gray !important;
 
 }
 .modal-button {
-  font-size: 1em;
+  font-size: 1em !important;
 }
 
 // OVERWRITE LINK STYLE ========================================================
@@ -138,6 +138,10 @@ nav {
 
 .modal-content span {
   font-size: 2em;
+}
+
+.modal-content p {
+  margin: 1em 0;
 }
 
 // MAIN ========================================================================

@@ -21,11 +21,22 @@
 
   {{#modal.body}}
     <h4>Create a New Game</h4>
-
+    {{#bs-form formLayout="vertical" model=this onSubmit=(action "createGame" modal) as |form|}}
+      <p><strong>Choose your role [default: operator]: </strong></p>
+      {{#bs-button-group
+        value=createGameRole
+        type="radio"
+        onChange=(action (mut createGameRole)) as |bg|}}
+        {{#bg.button value="operator"}}operator{{/bg.button}}
+        {{#bg.button value="operative"}}operative{{/bg.button}}
+      {{/bs-button-group}}
+      <p><strong>You have selected: {{createGameRole}}</strong></p>
+      {{form.element value=createGamePassword controlType="password" label="room-password" placeholder="password" property="room-password" required=true helpText="minimum 6 characters"}}
+      <p><strong>Enter the email of the person you want to invite to the game, they will receive an email with a link to the game.  If you would rather be paired with another player, you may leave it empty.</strong></p>
+      {{form.element value=createGameEmail controlType="email" label="invite-email" placeholder="example@email.com" property="email"}}
+      {{bs-button defaultText="Cancel" type="primary" buttonType="button" onClick=(action "closeModal" modal)}}
+      {{bs-button defaultText="Submit" type="primary" buttonType="submit"}}
+    {{/bs-form}}
   {{/modal.body}}
-  {{#modal.footer}}
-    <button type="button" name="button" class="modal-button" {{action "closeModal" modal}}>Cancel</button>
-    <button type="submit" name="button" class="modal-button" {{action "createGame" modal preventDefault=true}}>Log In</button>
-  {{/modal.footer}}
 
 {{/bs-modal}}
