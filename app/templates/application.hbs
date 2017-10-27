@@ -9,7 +9,7 @@
 
     <nav>
       {{#if loggedIn}}
-        <button type="button" name="navbar-btn" {{action "showUser"}}>{{user}}</button>
+        <button type="button" name="navbar-btn" {{action (mut showUserModal) true}}>{{user}}</button>
         <button type="button" class="navbar-btn" {{action "logOut"}}>Log Out</button>
       {{else}}
         <button type="button" class="navbar-btn" {{action (mut logInModal) true}}>Log In</button>
@@ -26,6 +26,8 @@
   }}
 </main>
 
+<!-- SIGN UP MODAL  -->
+
 {{#bs-modal open=signUpModal onSubmit=(action "signUp") onHidden=(action (mut signUpModal) false) as |modal|}}
   {{#modal.body}}
     <h4>Sign Up</h4>
@@ -39,6 +41,8 @@
   {{/modal.body}}
 {{/bs-modal}}
 
+<!-- LOG IN MODAL  -->
+
   {{#bs-modal open=logInModal onSubmit=(action "logIn" modal) onHidden=(action (mut logInModal) false) as |modal|}}
     {{#modal.body}}
     <h4>Log In</h4>
@@ -51,4 +55,22 @@
     {{/modal.body}}
 {{/bs-modal}}
 
-<!-- LOG IN MODAL -->
+<!-- SHOW USER MODAL -->
+
+{{#bs-modal open=showUserModal onHidden=(action (mut showUserModal) false ) as |modal|}}
+  {{#modal.body}}
+  <h4>Current User Info</h4>
+  <p><strong>username: </strong>{{user}}</p>
+  <p><strong>email: </strong> {{userEmail}}</p>
+
+  <h4>Edit User Info</h4>
+
+    {{#bs-form formLayout="vertical" model=this onSubmit=(action "editUser" modal) novalidate=false as |form|}}
+      {{form.element controlType="username" label="username" placeholder="username" property="username" required=true value=editCurrentUsername}}
+      {{form.element controlType="email" label="email" placeholder="example@email.com" value=editCurrentEmail property="email" required=true}}
+      {{form.element controlType="password" label="password" placeholder="password" property="password" required=true value=editCurrentPassword helpText="minimum 6 characters"}}
+      {{bs-button defaultText="Cancel" type="primary" buttonType="button"  onClick=(action "closeModal" modal )}}
+      {{bs-button defaultText="Submit" type="primary" buttonType="submit"}}
+    {{/bs-form}}
+  {{/modal.body}}
+{{/bs-modal}}

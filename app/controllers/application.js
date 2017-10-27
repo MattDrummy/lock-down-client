@@ -3,17 +3,16 @@ import ENV from 'lock-down-client/config/environment';
 
 export default Ember.Controller.extend({
   loggedIn: false,
-  user: Ember.computed(()=>{
-    localStorage.user = `guest${Math.ceil(Math.random()*9999)}`
-    return localStorage.user
-  }),
+  user: `guest${Math.ceil(Math.random()*9999)}`,
+  userEmail: "test@example.no",
   logInUsername: "",
   logInPassword: "",
   signUpUsername: "",
   signUpEmail: "",
   signUpPassword: "",
-  logInError: false,
-  signUpError: false,
+  editCurrentUsername: "",
+  editCurrentEmail: "",
+  editCurrentPassword: "",
   socketIOService: Ember.inject.service('socket-io'),
   url: ENV.apiHost,
 
@@ -136,44 +135,37 @@ export default Ember.Controller.extend({
 
   actions: {
     logIn(modal){
-      this.set('logInError', false)
-      if (
-        this.get("logInUsername") != "" &&
-        this.get("logInPassword") != ""
-      ) {
-        this.set('user', this.get('logInUsername'))
-        this.set('logInPassword', "")
-        this.set('logInUsername', "")
-        this.set('loggedIn', true);
-        modal.close()
-      } else {
-        this.set('logInError', true)
-      }
+      let user = this.get('logInUsername');
+      let password = this.get('logInPassword');
+      this.set('user', user)
+      this.set('logInPassword', "")
+      this.set('logInUsername', "")
+      this.set('loggedIn', true);
+      modal.close()
+
     },
     logOut(){
       this.set('loggedIn', false);
-      localStorage.user = `guest${Math.floor(Math.random()*9000) + 1000}`;
+      let user = `guest${Math.floor(Math.random()*9000) + 1000}`;
+      let email = user + "@example.com"
+      localStorage.user = user;
+      localStorage.email = email
       localStorage.removeItem('token');
-      this.set('user', localStorage.user);
+      this.set('user', user);
+      this.set('userEmail', email);
     },
     signUp(modal){
-      this.set('signUpError', false);
-      if (
-        this.get('signUpUsername') != "" &&
-        this.get("signUpEmail") != "" &&
-        this.get("signUpPassword") != "" &&
-        this.get('signUpEmail').includes('@') &&
-        this.get('signUpEmail').split("@")[1].includes('.')
-      ) {
-        this.set("user", this.get("signUpUsername"));
-        this.set('signUpUsername', '');
-        this.set('signUpEmail', '');
-        this.set('signUpPassword', '');
-        this.set('loggedIn', true);
-        modal.close()
-      } else {
-        this.set('signUpError', true)
-      }
+      let user = this.get('signUpUsername');
+      let email = this.get('signUpEmail');
+      let password = this.get('signUpPassword');
+      this.set('user', user);
+      this.set('userEmail', email);
+      this.set('signUpUsername', '');
+      this.set('signUpEmail', '');
+      this.set('signUpPassword', '');
+      this.set('loggedIn', true);
+      modal.close()
+
     },
     closeModal(modal){
       this.set('signUpUsername', '');
@@ -181,10 +173,21 @@ export default Ember.Controller.extend({
       this.set('signUpPassword', '');
       this.set('logInPassword', "");
       this.set('logInUsername', "");
-      this.set('logInError', false);
-      this.set('signUpError', false);
+      this.set('editCurrentEmail', "");
+      this.set('editCurrentPassword', "");
+      this.set('editCurrentEmail', "");
       modal.close();
     },
-
+    editUser(modal){
+      let user = this.get('editCurrnetUsername');
+      let email = this.get('editCurrentEmail');
+      let password = this.get('editCurrentPassword');
+      this.set('user', user);
+      this.set('userEmail', email);
+      this.set('editCurrentUsername', '');
+      this.set('editCurrentEmail', '');
+      this.set('editCurrentPassword', '');
+      modal.close();
+    }
   }
 });
