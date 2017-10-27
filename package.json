@@ -23,7 +23,7 @@
     "ember-bootstrap-validations": "^1.0.0-alpha",
     "ember-cli": "~2.15.1",
     "ember-cli-app-version": "^3.0.0",
-    "ember-cli-babel": "^6.3.0",
+    "ember-cli-babel": "^6.8.2",
     "ember-cli-dependency-checker": "^2.0.0",
     "ember-cli-eslint": "^4.0.0",
     "ember-cli-htmlbars": "^2.0.1",

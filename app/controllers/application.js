@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from 'lock-down-client/config/environment';
 
 export default Ember.Controller.extend({
   loggedIn: false,
@@ -14,7 +15,7 @@ export default Ember.Controller.extend({
   logInError: false,
   signUpError: false,
   socketIOService: Ember.inject.service('socket-io'),
-  url: 'ws://localhost:7000',
+  url: ENV.apiHost,
 
   // COMMANDS SHARED BY BOTH USERS
 
