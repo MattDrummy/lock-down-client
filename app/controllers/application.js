@@ -4,7 +4,6 @@ export default Ember.Controller.extend({
   loggedIn: false,
   user: `guest${Math.ceil(Math.random()*8999 + 1000)}`,
   userEmail: "test@example.no",
-  userTimestamp: 0,
   logInUsername: "",
   logInPassword: "",
   signUpUsername: "",
@@ -180,7 +179,6 @@ export default Ember.Controller.extend({
     },
     deleteUser(modal){
       let timestamp = this.get('userTimestamp');
-      let url = this.get('url')
       this.set('loggedIn', false);
       let user = `guest${Math.ceil(Math.random()*8999) + 1000}`;
       let email = user + "@example.com"

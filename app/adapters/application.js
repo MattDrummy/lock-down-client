@@ -22,7 +22,7 @@ export default DS.RESTAdapter.extend({
       })
     })
   },
-  findRecord(store, type, id, snapshot){
+  findRecord(store, type, id){
     let host = this.get('host')
     let namespace = this.get('namespace')
     let timestamp = id;
@@ -46,7 +46,7 @@ export default DS.RESTAdapter.extend({
         type: 'DELETE',
         url: `${host}/${namespace}/${type.modelName}s/${timestamp}`,
         dataType: `json`,
-        data, data,
+        data: data,
       }).then(function(data){
         Ember.run(null, resolve, data);
       }, function(err){

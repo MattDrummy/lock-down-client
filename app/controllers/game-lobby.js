@@ -8,7 +8,6 @@ export default Ember.Controller.extend({
   model: Ember.computed.alias('appCont.model'),
   actions: {
     deleteGame(timestamp){
-      let url = this.get('url')
       this.get('store').queryRecord('game', {'timestamp':timestamp})
         .then(function(game){
           game.deleteRecord();
