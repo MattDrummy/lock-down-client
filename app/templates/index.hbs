@@ -7,8 +7,17 @@
     <button type="button" name="button" {{action (mut createGameModal) true}}>CREATE GAME</button>
     {{#link-to "game-lobby" tagName="button"}}JOIN GAME{{/link-to}}
   </div>
-
   <div class="index-main">
+    {{#each model.games as |game|}}
+      {{game.owner}}
+      {{game.ownerRole}}
+      {{game.publicRoom}}
+      {{game.timestamp}}
+      {{game.operatorPassword}}
+      {{game.operatorPort}}
+      {{game.operativePort}}
+      {{game.operativeLocation}}
+    {{/each}}
     <p>In this game, you are stranded aboard a space station that has been deserted.  Most systems are offline, and most doors are on lockDown().  However, you are not alone!  There is another person stranded aboard the staiton, and with their help, you both may be able to escape to tell this tale.</p>
     <p>But, one of you is stranded in Engineering, unable to leave, the other is wandering the station.  Luckilly, both of you found a communication device to speak to each other.  Perhaps if you work together, you can over come the struggles of the station.</p>
     <p>To begin playing, you will need to sign up and create an account, or, if you have already done so, log in to your account.  After that, click CREATE GAME to create a new game, or click JOIN GAME to join another person's game</p>
@@ -31,8 +40,7 @@
         {{#bg.button value="operative"}}operative{{/bg.button}}
       {{/bs-button-group}}
       <p><strong>You have selected: {{createGameRole}}</strong></p>
-      {{form.element value=createGamePassword controlType="password" label="room-password" placeholder="password" property="room-password" required=true helpText="minimum 6 characters"}}
-      <p><strong>Enter the email of the person you want to invite to the game, they will receive an email with a link to the game.  If you would rather be paired with another player, you may leave it empty.</strong></p>
+      <p><strong>Enter the email of the person you want to invite to the game, they will receive an email with a link to the game.  If you would rather be paired with another player, you may leave it empty. Once the choice has been made, you can not change it.</strong></p>
       {{form.element value=createGameEmail controlType="email" label="invite-email" placeholder="example@email.com" property="email"}}
       {{bs-button defaultText="Cancel" type="primary" buttonType="button" onClick=(action "closeModal" modal)}}
       {{bs-button defaultText="Submit" type="primary" buttonType="submit"}}

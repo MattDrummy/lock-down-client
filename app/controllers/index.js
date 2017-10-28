@@ -1,20 +1,60 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+  appCont: Ember.inject.controller('application'),
+  loggedIn: Ember.computed.alias('appCont.loggedIn'),
   createGameRole: "operator",
-  createGamePassword: "",
   createGameEmail: "",
   actions: {
     createGame(modal){
-      // let role = this.get('createGameRole');
-      // let email = this.get('createGameEmail');
-      // let password = this.get('createGamePassword');
+      let loggedIn = this.get('loggedIn')
+      if (loggedIn) {
+        let owner = this.get('user')
+        let ownerRole = this.get('createGameRole');
+        let email = this.get('createGameEmail');
+        let publicRoom = email == "" ? true : false
+        let operatorPassword = ''
+        let alpha = ['a','b','c','d',
+        'e','f','g','h','i','j',
+        'k','l','m','n','o','p',
+        'q','r','s','t','u','v',
+        'w','x','y','z']
+        for (var i = 0; i < 8; i++) {
+          let rand = Math.floor(Math.random()*2)
+          if (rand%2 == 0) {
+            rand = Math.floor(Math.random()*10)
+            operatorPassword += rand
+          } else {
+            rand = Math.floor(Math.random()*26)
+            operatorPassword += alpha[rand]
+          }
+        }
+        let operatorPort = (Math.floor(Math.random()*9000) + 1000).toString();
+        let operativePort = Math.floor(Math.random()*9000) + 1000;
+        while (operativePort == operatorPort) {
+          operativePort = Math.floor(Math.random()*9000) + 1000;
+        }
+        let locations = [
+          "botany",
+          "hanger",
+          "bridge",
+          "medbay",
+        ]
+        let operativeLocation = locations[Math.floor(Math.random()*locations.length)];
+
+        let post = this.get('store').createRecord('game', {
+          owner, ownerRole, publicRoom, operatorPassword, operatorPort, operativePort, operativeLocation,
+        });
+        post.save();
+
+      } else {
+        alert("You are not logged in, before you can create a game, you must create an account");
+      }
       modal.close();
     },
     closeModal(modal){
       this.set('createGameRole', "operator")
       this.set('createGameEmail', "")
-      this.set('createGamePassword', "")
       modal.close()
     }
   }
