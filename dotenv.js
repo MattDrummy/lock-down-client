@@ -1,6 +1,6 @@
 
 module.exports = function(env){
   return {
-    path: './.env'
+    path: '.env'
   }
 }
