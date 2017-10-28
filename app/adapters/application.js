@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import ENV from 'lock-down-client/config/environment';
 
 export default DS.RESTAdapter.extend({
   host: 'https://lock-down-web-server.herokuapp.com',
@@ -11,7 +10,7 @@ export default DS.RESTAdapter.extend({
     return new Ember.RSVP.Promise(function(resolve, reject){
       Ember.$.ajax({
         type: 'POST',
-        url: `${ENV.apihost}/${ENV.namespace}/${type.modelName}s`,
+        url: `https://lock-down-web-server.herokuapp.com/api/v1/${type.modelName}s`,
         dataType: 'json',
         data: data
       }).then(function(data){
