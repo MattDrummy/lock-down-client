@@ -6,9 +6,9 @@ export default Ember.Controller.extend({
   createGameEmail: "",
   actions: {
     createGame(modal){
-      let role = this.get('createGameRole');
-      let email = this.get('createGameEmail');
-      let password = this.get('createGamePassword');
+      // let role = this.get('createGameRole');
+      // let email = this.get('createGameEmail');
+      // let password = this.get('createGamePassword');
       modal.close();
     },
     closeModal(modal){

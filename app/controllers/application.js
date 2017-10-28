@@ -136,7 +136,7 @@ export default Ember.Controller.extend({
   actions: {
     logIn(modal){
       let user = this.get('logInUsername');
-      let password = this.get('logInPassword');
+      // let password = this.get('logInPassword');
       this.set('user', user)
       this.set('logInPassword', "")
       this.set('logInUsername', "")
@@ -187,7 +187,7 @@ export default Ember.Controller.extend({
     editUser(modal){
       let user = this.get('editCurrnetUsername');
       let email = this.get('editCurrentEmail');
-      let password = this.get('editCurrentPassword');
+      // let password = this.get('editCurrentPassword');
       this.set('user', user);
       this.set('userEmail', email);
       this.set('editCurrentUsername', '');
