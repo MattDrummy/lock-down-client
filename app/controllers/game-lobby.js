@@ -7,7 +7,13 @@ export default Ember.Controller.extend({
   url: Ember.computed.alias('appCont.url'),
   actions: {
     deleteGame(timestamp){
-      
+      let url = this.get('url')
+      Ember.$.ajax({
+        type: 'DELETE',
+        url: `${url}/api/v1/games/${timestamp}`,
+      }).then(function(){
+        location.href = '/game-lobby'
+      })
     }
   }
 });
