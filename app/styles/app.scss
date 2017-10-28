@@ -207,7 +207,8 @@ main {
 .game-info,
 .input-box input,
 .index-header,
-.index-main, {
+.index-main,
+.games-window {
   background: #000700;
   color: rgb(50,200,50);
   border: 3px solid rgb(200,200,200);
@@ -215,7 +216,8 @@ main {
 
 .chat-window,
 .console-window,
-.game-info, {
+.game-info,
+.games-window {
   border-radius: 10px;
   padding: 1em;
   overflow-y: scroll;

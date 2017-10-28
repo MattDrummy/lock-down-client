@@ -2,7 +2,11 @@
 <div class="game-lobby">
   <div class="games-list">
     <div class="games-window">
-
+      {{#each model.games as |game|}}
+        {{#if game.publicRoom}}
+          <p>{{game.owner}} - {{game.timestamp}} - <button type="button" name="button">JOIN GAME</button></p>
+        {{/if}}
+      {{/each}}
     </div>
   </div>
   <div class="lobby-chat-area">

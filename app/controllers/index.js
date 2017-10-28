@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
     createGame(modal){
       let loggedIn = this.get('loggedIn')
       if (loggedIn) {
-        let owner = this.get('user')
+        let owner = localStorage.user;
         let ownerRole = this.get('createGameRole');
         let email = this.get('createGameEmail');
         let publicRoom = email == "" ? true : false
