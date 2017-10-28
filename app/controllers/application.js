@@ -152,6 +152,7 @@ export default Ember.Controller.extend({
       localStorage.removeItem('token');
       this.set('user', user);
       this.set('userEmail', email);
+      this.transitionToRoute('index');
     },
     signUp(modal){
       let username = this.get('signUpUsername');
