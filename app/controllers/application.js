@@ -14,7 +14,7 @@ export default Ember.Controller.extend({
   editCurrentEmail: "",
   editCurrentPassword: "",
   socketIOService: Ember.inject.service('socket-io'),
-  url: ENV.apiHost,
+  url: `https://lock-down-web-server.herokuapp.com`,
 
   // COMMANDS SHARED BY BOTH USERS
 
