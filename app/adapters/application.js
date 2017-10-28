@@ -21,5 +21,5 @@ export default DS.RESTAdapter.extend({
         Ember.run(null, reject, jqXHR);
       })
     })
-  }
+  },
 });

@@ -4,14 +4,12 @@ export default Ember.Controller.extend({
   loggedIn: false,
   user: `guest${Math.ceil(Math.random()*8999 + 1000)}`,
   userEmail: "test@example.no",
+  userTimestamp: 0,
   logInUsername: "",
   logInPassword: "",
   signUpUsername: "",
   signUpEmail: "",
   signUpPassword: "",
-  editCurrentUsername: "",
-  editCurrentEmail: "",
-  editCurrentPassword: "",
   socketIOService: Ember.inject.service('socket-io'),
   url: `http://localhost:7000`,
 
@@ -134,14 +132,7 @@ export default Ember.Controller.extend({
 
   actions: {
     logIn(modal){
-      let user = this.get('logInUsername');
-      // let password = this.get('logInPassword');
-      this.set('user', user)
-      this.set('logInPassword', "")
-      this.set('logInUsername', "")
-      this.set('loggedIn', true);
       modal.close()
-
     },
     logOut(){
       this.set('loggedIn', false);
@@ -161,16 +152,23 @@ export default Ember.Controller.extend({
       let post = this.get('store').createRecord('user', {
         username, email, password,
       })
-      post.save().then((response)=>response._internalModel.__data)
-        .then((user)=>{
-        this.set('user', user.username);
-        this.set('userEmail', user.email);
-        this.set('loggedIn', true);
-        this.set('signUpUsername', '');
-        this.set('signUpEmail', '');
-        this.set('signUpPassword', '');
-        modal.close()
-      })
+        post.save().then((response)=>response._internalModel.__data)
+          .then((user)=>{
+            localStorage.user = user.username;
+            localStorage.email = user.email;
+            localStorage.timestamp = user.timestamp;
+            this.set('user', user.username);
+            this.set('userEmail', user.email);
+            this.set('userTimestamp', user.timestamp);
+            this.set('loggedIn', true);
+            this.set('signUpUsername', '');
+            this.set('signUpEmail', '');
+            this.set('signUpPassword', '');
+            modal.close()
+        })
+          .catch((err)=>{
+            alert(err.responseJSON.error)
+          })
 
     },
     closeModal(modal){
@@ -179,21 +177,10 @@ export default Ember.Controller.extend({
       this.set('signUpPassword', '');
       this.set('logInPassword', "");
       this.set('logInUsername', "");
-      this.set('editCurrentEmail', "");
-      this.set('editCurrentPassword', "");
-      this.set('editCurrentEmail', "");
       modal.close();
     },
-    editUser(modal){
-      let user = this.get('editCurrnetUsername');
-      let email = this.get('editCurrentEmail');
-      // let password = this.get('editCurrentPassword');
-      this.set('user', user);
-      this.set('userEmail', email);
-      this.set('editCurrentUsername', '');
-      this.set('editCurrentEmail', '');
-      this.set('editCurrentPassword', '');
-      modal.close();
+    deleteUser(modal){
+
     }
   }
 });
