@@ -6,8 +6,8 @@ module.exports = function(environment) {
     'ember-websockets':{
       socketIO: true,
     },
-    API_HOST: process.env.API_HOST,
-    NAMESPACE: process.env.NAMESPACE,
+    apihost: process.env.API_HOST,
+    namespace: process.env.NAMESPACE,
     modulePrefix: 'lock-down-client',
     environment,
     rootURL: '/',

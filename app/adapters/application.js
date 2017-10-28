@@ -3,8 +3,8 @@ import DS from 'ember-data';
 import ENV from 'lock-down-client/config/environment';
 
 export default DS.RESTAdapter.extend({
-  host: ENV.API_HOST,
-  namespace: ENV.NAMESPACE,
+  host: ENV.apihost,
+  namespace: ENV.namespace,
   createRecord(store, type, snapshot){
     let data = this.serialize(snapshot, {includeId: false})
 
