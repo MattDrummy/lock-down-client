@@ -155,16 +155,22 @@ export default Ember.Controller.extend({
       this.set('userEmail', email);
     },
     signUp(modal){
-      let user = this.get('signUpUsername');
+      let username = this.get('signUpUsername');
       let email = this.get('signUpEmail');
       let password = this.get('signUpPassword');
-      this.set('user', user);
-      this.set('userEmail', email);
-      this.set('signUpUsername', '');
-      this.set('signUpEmail', '');
-      this.set('signUpPassword', '');
-      this.set('loggedIn', true);
-      modal.close()
+      let post = this.get('store').createRecord('user', {
+        username, email, password,
+      })
+      post.save().then((response)=>response._internalModel.__data)
+        .then((user)=>{
+        this.set('user', user.username);
+        this.set('userEmail', user.email);
+        this.set('loggedIn', true);
+        this.set('signUpUsername', '');
+        this.set('signUpEmail', '');
+        this.set('signUpPassword', '');
+        modal.close()
+      })
 
     },
     closeModal(modal){
