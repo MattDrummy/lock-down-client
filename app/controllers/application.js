@@ -1,9 +1,8 @@
 import Ember from 'ember';
-import ENV from 'lock-down-client/config/environment';
 
 export default Ember.Controller.extend({
   loggedIn: false,
-  user: `guest${Math.ceil(Math.random()*9999)}`,
+  user: `guest${Math.ceil(Math.random()*8999 + 1000)}`,
   userEmail: "test@example.no",
   logInUsername: "",
   logInPassword: "",
@@ -14,7 +13,7 @@ export default Ember.Controller.extend({
   editCurrentEmail: "",
   editCurrentPassword: "",
   socketIOService: Ember.inject.service('socket-io'),
-  url: `https://lock-down-web-server.herokuapp.com`,
+  url: `http://localhost:7000`,
 
   // COMMANDS SHARED BY BOTH USERS
 
@@ -146,7 +145,7 @@ export default Ember.Controller.extend({
     },
     logOut(){
       this.set('loggedIn', false);
-      let user = `guest${Math.floor(Math.random()*9000) + 1000}`;
+      let user = `guest${Math.ceil(Math.random()*8999) + 1000}`;
       let email = user + "@example.com"
       localStorage.user = user;
       localStorage.email = email
