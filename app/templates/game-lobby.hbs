@@ -4,7 +4,16 @@
     <div class="games-window">
       {{#each model.games as |game|}}
         {{#if game.publicRoom}}
-          <p>{{game.owner}} - {{game.timestamp}} - <button type="button" name="button">JOIN GAME</button></p>
+          <p>
+            {{game.owner}} -
+            {{game.timestamp}} -
+            {{#if (is-game-owner user game.owner)}}
+              <button type="button" name="button">Enter Game</button> -
+              <button type="button" name="button">Delete Game</button>
+            {{else}}
+              <button type="button" name="button">Join Game</button>
+            {{/if}}
+          </p>
         {{/if}}
       {{/each}}
     </div>
