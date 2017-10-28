@@ -165,11 +165,10 @@ export default Ember.Controller.extend({
             this.set('signUpEmail', '');
             this.set('signUpPassword', '');
             modal.close()
-        })
+          })
           .catch((err)=>{
             alert(err.responseJSON.error)
           })
-
     },
     closeModal(modal){
       this.set('signUpUsername', '');
@@ -180,7 +179,31 @@ export default Ember.Controller.extend({
       modal.close();
     },
     deleteUser(modal){
+      let timestamp = this.get('userTimestamp');
+      let url = this.get('url')
+      this.set('loggedIn', false);
+      let user = `guest${Math.ceil(Math.random()*8999) + 1000}`;
+      let email = user + "@example.com"
+      localStorage.user = user;
+      localStorage.email = email
+      localStorage.removeItem('token');
+      this.set('user', user);
+      this.set('userEmail', email);
+      this.transitionToRoute('index');
 
+      this.get('store')
+      .query('user', {
+        timestamp: timestamp,
+      })
+      .then(function(user){
+        Ember.$.ajax({
+          type: 'DELETE',
+          url: `${url}/api/v1/users/${user.timestamp}`,
+        })
+        .then(function(response){
+          modal.close()
+        })
+      })
     }
   }
 });
