@@ -6,8 +6,8 @@ module.exports = function(environment) {
     'ember-websockets':{
       socketIO: true,
     },
-    apihost: process.env.API_HOST,
-    namespace: process.env.NAMESPACE,
+    apihost: 'https://lock-down-web-server.herokuapp.com',
+    namespace: 'api/v1',
     modulePrefix: 'lock-down-client',
     environment,
     rootURL: '/',
