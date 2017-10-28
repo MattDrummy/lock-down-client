@@ -21,19 +21,5 @@ export default DS.RESTAdapter.extend({
         Ember.run(null, reject, jqXHR);
       })
     })
-  },
-  findRecord(store,type, id, snapshot){
-    let host = this.get('host');
-    let namespace = this.get('namespace')
-    return new Ember.RSVP.Promise(function(resolve, reject){
-      Ember.$.getJSON(`${host}/${namespace}/${type.modelName}s/${snapshot.id}`)
-        .then(function(data){
-          console.log(data);
-          resolve(data.user[0]);
-        }, function(jqXHR){
-          console.log(jqXHR);
-          reject(jqXHR);
-        })
-    })
   }
 });
