@@ -190,13 +190,12 @@ export default Ember.Controller.extend({
       this.set('user', user);
       this.set('userEmail', email);
       this.transitionToRoute('index');
-      Ember.$.ajax({
-        type: 'DELETE',
-        url: `${url}/api/v1/users/${timestamp}`,
-      }).then(function(response){
-        alert(response.message)
-        modal.close()
-      })
+      this.get('store').queryRecord('user', {"timestamp": timestamp})
+        .then(function(user){
+          user.deleteRecord();
+          user.save();
+          modal.close();
+        })
     }
   }
 });

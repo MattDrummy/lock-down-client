@@ -5,15 +5,15 @@ export default Ember.Controller.extend({
   user: Ember.computed.alias('appCont.user'),
   socketIOService: Ember.computed.alias('appCont.socketIOService'),
   url: Ember.computed.alias('appCont.url'),
+  model: Ember.computed.alias('appCont.model'),
   actions: {
     deleteGame(timestamp){
       let url = this.get('url')
-      Ember.$.ajax({
-        type: 'DELETE',
-        url: `${url}/api/v1/games/${timestamp}`,
-      }).then(function(){
-        location.href = '/game-lobby'
-      })
+      this.get('store').queryRecord('game', {'timestamp':timestamp})
+        .then(function(game){
+          game.deleteRecord();
+          game.save();
+        })
     }
   }
 });
