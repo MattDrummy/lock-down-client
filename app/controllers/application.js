@@ -26,7 +26,7 @@ export default Ember.Controller.extend({
         data: {
           tokenString: localStorage.token,
         }
-      }).then(function(user){
+      }).then((user)=>{
         c.set('user', user.claims.username);
         c.set('userEmail', user.claims.email);
         c.set('userTimestamp', user.claims.timestamp);
@@ -158,7 +158,8 @@ export default Ember.Controller.extend({
       let c = this
       let username = c.get('logInUsername')
       let password = c.get('logInPassword')
-      c.get('store').findAll('user').then(function(data){
+      c.get('store').findAll('user')
+      .then((data)=>{
         let user = data.content.map((item)=>{
           return item.__data;
         }).filter((item)=>{
@@ -180,7 +181,8 @@ export default Ember.Controller.extend({
               password: user.password,
               timestamp: user.timestamp,
             },
-          }).then(function(response){
+          })
+          .then((response)=>{
             localStorage.token = response.tokenString;
           })
         }
@@ -203,7 +205,8 @@ export default Ember.Controller.extend({
       let post = c.get('store').createRecord('user', {
         username, email, password,
       })
-      post.save().then((response)=>response._internalModel.__data)
+      post.save()
+      .then((response)=>response._internalModel.__data)
       .then((user)=>{
         let sign = {
           username: user.username,
@@ -216,7 +219,8 @@ export default Ember.Controller.extend({
           url: `${c.get('url')}/signJWT`,
           dataType: 'json',
           data: sign,
-        }).then(function(data){
+        })
+        .then((data)=>{
           c.set('user', user.username);
           c.set('userEmail', user.email);
           c.set('userTimestamp', user.timestamp);
@@ -227,7 +231,8 @@ export default Ember.Controller.extend({
           localStorage.token = data.tokenString;
           modal.close()
         })
-      }).catch((err)=>{
+      })
+      .catch((err)=>{
         alert(err.responseJSON.error)
       })
     },
@@ -243,10 +248,12 @@ export default Ember.Controller.extend({
     deleteUser(modal){
       let c = this;
       let timestamp = c.get('userTimestamp');
-      c.get('store').queryRecord('user', {"timestamp": timestamp}).then(function(user){
+      c.get('store').queryRecord('user', {"timestamp": timestamp})
+      .then((user)=>{
         user.deleteRecord();
-        user.save();
-      }).then(function(){
+        return user.save();
+      })
+      .then(()=>{
         c.set('loggedIn', false);
         let user = `guest${Math.ceil(Math.random()*8999) + 1000}`;
         let email = user + "@example.com"
@@ -266,15 +273,16 @@ export default Ember.Controller.extend({
       let timestamp = c.get('userTimestamp');
       c.get('store').queryRecord('user', {
         "timestamp": timestamp,
-      }).then(function(data){
+      })
+      .then((data)=>{
         let user = data._internalModel.__data;
         data.set('username', username != "" ? username : user.username );
         data.set('email', email != "" ? email : user.email );
         data.set('password', password != "" ? password : user.password );
         return data.save()
-      }).then(function(response){
-        return response._internalModel.__data
-      }).then(function(user){
+      })
+      .then((response)=>response._internalModel.__data)
+      .then((user)=>{
         c.set('user', user.username);
         c.set('userEmail', user.email);
         c.set('userTimestamp', user.timestamp);

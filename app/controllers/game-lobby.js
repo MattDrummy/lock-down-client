@@ -12,7 +12,8 @@ export default Ember.Controller.extend({
   actions: {
     deleteGame(timestamp){
       let c = this;
-      c.get('store').queryRecord('game', { 'timestamp': timestamp, }).then(function(game){
+      c.get('store').queryRecord('game', { 'timestamp': timestamp, })
+      .then((game)=>{
         game.deleteRecord();
         game.save();
       })

@@ -48,19 +48,21 @@ export default Ember.Controller.extend({
         let post = c.get('store').createRecord('game', {
           owner, ownerRole, publicRoom, operatorPassword, operatorPort, operativePort, operativeLocation,
         });
-        post.save().then(function(response){
-          return response._internalModel.__data
-        }).then(function(game){
+        post.save()
+        .then((response)=>response._internalModel.__data)
+        .then(function(game){
           if (game.publicRoom) {
             c.transitionToRoute('game-lobby')
           }
-        }).catch(function(err){
+        }).catch((err)=>{
           let r = confirm(err.responseJSON.error)
           if (r) {
-            c.get('store').queryRecord('game', {'owner':owner}).then(function(game){
+            c.get('store').queryRecord('game', {'owner':owner})
+            .then((game)=>{
               game.deleteRecord();
               return game.save();
-            }).then(function(){
+            })
+            .then(()=>{
               location.href = "/"
             });
           }
