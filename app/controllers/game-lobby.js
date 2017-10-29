@@ -5,9 +5,14 @@ export default Ember.Controller.extend({
   user: Ember.computed.alias('appCont.user'),
   socketIOService: Ember.computed.alias('appCont.socketIOService'),
   url: Ember.computed.alias('appCont.url'),
+  lobbyChatMessages: [],
+  lobby: "lobby",
   init(){
     let c = this;
     c.get('store').findAll('game');
+    let url = c.get('url');
+    c.set('lobbyChatMessages', []);
+    const socket = c.get('socketIOService').socketFor(url)
   },
   actions: {
     deleteGame(timestamp){
@@ -15,7 +20,12 @@ export default Ember.Controller.extend({
       c.get('store').queryRecord('game', { 'timestamp': timestamp, })
       .then((game)=>{
         game.deleteRecord();
-        game.save();
+        return game.save();
+      })
+      .then(()=>{
+        let url = c.get('url')
+        const socket = c.get('socketIOService').socketFor(url)
+        socket.emit('updateRecord', '')
       })
     },
     joinGame(timestamp){

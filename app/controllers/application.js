@@ -15,7 +15,6 @@ export default Ember.Controller.extend({
   editPassword: undefined,
   socketIOService: Ember.inject.service('socket-io'),
   url: `http://localhost:7000`,
-
   init(){
     if (localStorage.token) {
       let c = this;

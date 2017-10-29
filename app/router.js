@@ -7,9 +7,8 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('example-game-area');
   this.route('game-lobby');
-  this.route('game');
+  this.route('game', { path: '/game/:role/:timestamp'});
 });
 
 export default Router;

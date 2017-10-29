@@ -3,8 +3,6 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['chat-box'],
   chatInput: "",
-  lobby: "lobby",
-  lobbyChatMessages: [],
   fixScroll: (targetDiv)=>{
     setTimeout(()=>{
       let objDiv = document.getElementsByClassName(targetDiv)[0]
@@ -13,12 +11,12 @@ export default Ember.Component.extend({
   },
   init(){
     let c = this;
-    c.set('lobbyChatMessages',[])
     c._super(...arguments);
-    const socket = this.get('socketIOService').socketFor(c.get('url'))
     let user = c.get('user')
     let lobby = c.get('lobby')
-    let lobbyChatMessages = c.get('lobbyChatMessages')
+    let lobbyChatMessages = c.get('lobbyChatMessages');
+    let url = c.get('url')
+    const socket = c.get('socketIOService').socketFor(url)
     socket.emit('open', [user,lobby]);
     socket.on('close', (message)=>{
       lobbyChatMessages.pushObject(message)
@@ -32,10 +30,11 @@ export default Ember.Component.extend({
   },
   willDestroyElement(){
     let c = this
-    c._super(...arguments);
-    const socket = c.get('socketIOService').socketFor(c.get('url'));
+    let url = c.get('url')
     let user = c.get('user');
     let lobby = c.get('lobby');
+    c._super(...arguments);
+    const socket = c.get('socketIOService').socketFor(url);
     socket.emit('close', [user,lobby]);
     c.set('lobbyChatMessages', []);
     c.get('socketIOService').closeSocketFor(c.get('url'));
