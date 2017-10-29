@@ -54,5 +54,24 @@ export default DS.RESTAdapter.extend({
         Ember.run(null, reject, err)
       })
     })
+  },
+  updateRecord(store, type, snapshot){
+    let data = this.serialize(snapshot, {includeId: false})
+    let timestamp = snapshot._attributes.timestamp;
+    let host = this.get('host')
+    let namespace = this.get('namespace')
+    return new Ember.RSVP.Promise(function(resolve, reject){
+      Ember.$.ajax({
+        type: 'PUT',
+        url: `${host}/${namespace}/${type.modelName}s/${timestamp}`,
+        dataType: `json`,
+        data: data,
+      }).then(function(data){
+        Ember.run(null, resolve, data)
+      }, function(err){
+        err.then = null;
+        Ember.run(null, reject, err);
+      })
+    })
   }
 });

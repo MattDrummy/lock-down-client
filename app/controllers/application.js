@@ -4,14 +4,39 @@ export default Ember.Controller.extend({
   loggedIn: false,
   user: `guest${Math.ceil(Math.random()*8999 + 1000)}`,
   userEmail: "test@example.no",
+  userTimestamp: "",
   logInUsername: "",
   logInPassword: "",
   signUpUsername: "",
   signUpEmail: "",
   signUpPassword: "",
+  editUsername: undefined,
+  editEmail: undefined,
+  editPassword: undefined,
   socketIOService: Ember.inject.service('socket-io'),
   url: `http://localhost:7000`,
 
+  init(){
+    if (localStorage.token) {
+      let c = this;
+      Ember.$.ajax({
+        type: 'POST',
+        url: `${c.get('url')}/logIn`,
+        datatype: 'json',
+        data: {
+          tokenString: localStorage.token,
+        }
+      }).then(function(user){
+        localStorage.user = user.claims.username;
+        localStorage.email = user.claims.email;
+        localStorage.timestamp = user.claims.timestamp;
+        c.set('user', user.claims.username);
+        c.set('userEmail', user.claims.email);
+        c.set('userTimestamp', user.claims.timestamp);
+        c.set('loggedIn', true);
+      })
+    }
+  },
   // COMMANDS SHARED BY BOTH USERS
 
   sharedCommands: [
@@ -42,13 +67,14 @@ export default Ember.Controller.extend({
   // OPERATOR COMMANDS
 
   operatorCommands: Ember.computed(function(){
-    return this.get('sharedCommands').concat([
+    let c = this;
+    return c.get('sharedCommands').concat([
       {
         command: "whoami",
         options: [],
         desc: "prints information on the currently logged in user",
         run: (data)=>{
-          let user = this.get('user')
+          let user = c.get('user')
           data.readOut.pushObject(`${data.currPath} ${data.command}`)
           data.readOut.pushObject(`USER = ${user}`)
           data.readOut.pushObject(`ROLE = engineer`)
@@ -61,7 +87,8 @@ export default Ember.Controller.extend({
   //OPERATIVE COMMANDS
 
   operativeCommands: Ember.computed(function(){
-    return this.get('sharedCommands').concat([
+    let c = this;
+    return c.get('sharedCommands').concat([
       {
         command: `door`,
         options: [
@@ -131,69 +158,145 @@ export default Ember.Controller.extend({
 
   actions: {
     logIn(modal){
+      let c = this
+      let username = c.get('logInUsername')
+      let password = c.get('logInPassword')
+      c.get('store').findAll('user').then(function(data){
+        let user = data.content.map((item)=>{
+          return item.__data;
+        }).filter((item)=>{
+          return item.username == username;
+        })[0]
+        if (user.password == password) {
+          localStorage.user = user.username;
+          localStorage.email = user.email;
+          localStorage.timestamp = user.timestamp;
+          c.set('user', user.username);
+          c.set('userEmail', user.email);
+          c.set('userTimestamp', user.timestamp);
+          c.set('loggedIn', true);
+
+          Ember.$.ajax({
+            type: 'POST',
+            url: `${c.get('url')}/signJWT`,
+            dataType: 'json',
+            data: {
+              username: user.username,
+              email: user.email,
+              password: user.password,
+              timestamp: user.timestamp,
+            },
+          }).then(function(response){
+            localStorage.token = response.tokenString;
+          })
+        }
+      })
       modal.close()
     },
     logOut(){
-      this.set('loggedIn', false);
+      let c = this;
+      c.set('loggedIn', false);
       let user = `guest${Math.ceil(Math.random()*8999) + 1000}`;
-      let email = user + "@example.com"
       localStorage.user = user;
-      localStorage.email = email
+      localStorage.removeItem('timestamp')
       localStorage.removeItem('token');
-      this.set('user', user);
-      this.set('userEmail', email);
-      this.transitionToRoute('index');
+      localStorage.removeItem('email')
+      c.set('user', user);
+      c.transitionToRoute('index');
     },
     signUp(modal){
-      let username = this.get('signUpUsername');
-      let email = this.get('signUpEmail');
-      let password = this.get('signUpPassword');
-      let post = this.get('store').createRecord('user', {
+      let c = this
+      let username = c.get('signUpUsername');
+      let email = c.get('signUpEmail');
+      let password = c.get('signUpPassword');
+      let post = c.get('store').createRecord('user', {
         username, email, password,
       })
-        post.save().then((response)=>response._internalModel.__data)
-          .then((user)=>{
-            localStorage.user = user.username;
-            localStorage.email = user.email;
-            localStorage.timestamp = user.timestamp;
-            this.set('user', user.username);
-            this.set('userEmail', user.email);
-            this.set('userTimestamp', user.timestamp);
-            this.set('loggedIn', true);
-            this.set('signUpUsername', '');
-            this.set('signUpEmail', '');
-            this.set('signUpPassword', '');
-            modal.close()
-          })
-          .catch((err)=>{
-            alert(err.responseJSON.error)
-          })
+      post.save().then((response)=>response._internalModel.__data)
+      .then((user)=>{
+        let sign = {
+          username: user.username,
+          email: user.email,
+          password: user.password,
+          timestamp: user.timestamp,
+        }
+        Ember.$.ajax({
+          type: 'POST',
+          url: `${c.get('url')}/signJWT`,
+          dataType: 'json',
+          data: sign,
+        }).then(function(data){
+          localStorage.user = user.username;
+          localStorage.email = user.email;
+          localStorage.timestamp = user.timestamp;
+          c.set('user', user.username);
+          c.set('userEmail', user.email);
+          c.set('userTimestamp', user.timestamp);
+          c.set('loggedIn', true);
+          c.set('signUpUsername', '');
+          c.set('signUpEmail', '');
+          c.set('signUpPassword', '');
+          localStorage.token = data.tokenString;
+          modal.close()
+        })
+      }).catch((err)=>{
+        alert(err.responseJSON.error)
+      })
     },
     closeModal(modal){
-      this.set('signUpUsername', '');
-      this.set('signUpEmail', '');
-      this.set('signUpPassword', '');
-      this.set('logInPassword', "");
-      this.set('logInUsername', "");
+      let c = this
+      c.set('signUpUsername', '');
+      c.set('signUpEmail', '');
+      c.set('signUpPassword', '');
+      c.set('logInPassword', "");
+      c.set('logInUsername', "");
       modal.close();
     },
     deleteUser(modal){
-      let timestamp = this.get('userTimestamp');
-      this.set('loggedIn', false);
-      let user = `guest${Math.ceil(Math.random()*8999) + 1000}`;
-      let email = user + "@example.com"
-      localStorage.user = user;
-      localStorage.email = email
-      localStorage.removeItem('token');
-      this.set('user', user);
-      this.set('userEmail', email);
-      this.transitionToRoute('index');
-      this.get('store').queryRecord('user', {"timestamp": timestamp})
-        .then(function(user){
-          user.deleteRecord();
-          user.save();
-          modal.close();
-        })
+      let c = this;
+      let timestamp = c.get('userTimestamp');
+      c.get('store').queryRecord('user', {"timestamp": timestamp}).then(function(user){
+        user.deleteRecord();
+        user.save();
+      }).then(function(){
+        c.set('loggedIn', false);
+        let user = `guest${Math.ceil(Math.random()*8999) + 1000}`;
+        let email = user + "@example.com"
+        localStorage.user = user;
+        localStorage.email = email
+        localStorage.removeItem('token');
+        c.set('user', user);
+        c.set('userEmail', email);
+        c.transitionToRoute('index');
+        modal.close();
+
+      })
+    },
+    editUser(modal){
+      let c = this;
+      let username = c.get('editUsername');
+      let email = c.get('editEmail');
+      let password = c.get('editPassword');
+      let timestamp = c.get('userTimestamp');
+      c.get('store').queryRecord('user', {
+        "timestamp": timestamp,
+      }).then(function(data){
+        let user = data._internalModel.__data;
+        data.set('username', username != "" ? username : user.username );
+        data.set('email', email != "" ? email : user.email );
+        data.set('password', password != "" ? password : user.password );
+        return data.save()
+      }).then(function(response){
+        return response._internalModel.__data
+      }).then(function(user){
+        c.set('user', user.username);
+        c.set('userEmail', user.email);
+        c.set('userTimestamp', user.timestamp);
+        c.set('editEmail', "");
+        c.set('editUsername', "");
+        c.set('editPassword', "");
+        modal.close();
+      })
     }
   }
 });

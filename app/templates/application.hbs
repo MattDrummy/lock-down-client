@@ -63,5 +63,14 @@
     <p><strong>username: </strong>{{user}}</p>
     <p><strong>email: </strong> {{userEmail}}</p>
     <button type="button" name="button" {{action "deleteUser" modal}}>Delete User</button>
+
+    <h4>Edit User Info</h4>
+    {{#bs-form formLayout="vertical" model=this onSubmit=(action "editUser" modal) as |form|}}
+      {{form.element label="username" placeholder="username" property="username" value=editUsername}}
+      {{form.element controlType="email" label="email" placeholder="example@email.com" value=editEmail property="email"}}
+      {{form.element controlType="password" label="password" placeholder="password" property="password" value=editPassword helpText="minimum 6 characters"}}
+      {{bs-button defaultText="Cancel" type="primary" buttonType="button"  onClick=(action "closeModal" modal)}}
+      {{bs-button defaultText="Submit" type="primary" buttonType="submit"}}
+    {{/bs-form}}
   {{/modal.body}}
 {{/bs-modal}}
