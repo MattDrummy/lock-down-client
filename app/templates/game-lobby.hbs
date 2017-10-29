@@ -8,7 +8,7 @@
             {{game.owner}} -
             {{game.timestamp}} -
             {{#if (is-game-owner user game.owner)}}
-              <button type="button" name="button">Enter Game</button> -
+              <button type="button" name="button" {{action "enterGame" timestamp}}>Enter Game</button> -
               <button type="button" name="button"{{action "deleteGame" game.timestamp}}>Delete Game</button>
             {{else}}
               <button type="button" name="button" {{action "joinGame" game.timestamp}}>Join Game</button>

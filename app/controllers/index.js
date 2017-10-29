@@ -48,7 +48,23 @@ export default Ember.Controller.extend({
         let post = c.get('store').createRecord('game', {
           owner, ownerRole, publicRoom, operatorPassword, operatorPort, operativePort, operativeLocation,
         });
-        post.save();
+        post.save().then(function(response){
+          return response._internalModel.__data
+        }).then(function(game){
+          if (game.publicRoom) {
+            c.transitionToRoute('game-lobby')
+          }
+        }).catch(function(err){
+          let r = confirm(err.responseJSON.error)
+          if (r) {
+            c.get('store').queryRecord('game', {'owner':owner}).then(function(game){
+              game.deleteRecord();
+              return game.save();
+            }).then(function(){
+              location.href = "/"
+            });
+          }
+        });
 
       } else {
         alert("You are not logged in, before you can create a game, you must create an account");

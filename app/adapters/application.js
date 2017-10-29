@@ -4,6 +4,18 @@ import DS from 'ember-data';
 export default DS.RESTAdapter.extend({
   host: 'http://localhost:7000',
   namespace: 'api/v1',
+  shouldReloadRecord: function() {
+   return true;
+  },
+  shouldReloadAll: function() {
+    return true;
+  },
+  shouldBackgroundReloadRecord: function() {
+    return true;
+  },
+  shouldBackgroundReloadAll: function() {
+    return true;
+  },
   createRecord(store, type, snapshot){
     let data = this.serialize(snapshot, {includeId: false})
     let host = this.get('host');

@@ -5,14 +5,21 @@ export default Ember.Controller.extend({
   user: Ember.computed.alias('appCont.user'),
   socketIOService: Ember.computed.alias('appCont.socketIOService'),
   url: Ember.computed.alias('appCont.url'),
-  model: Ember.computed.alias('appCont.model'),
+  init(){
+    let c = this;
+    c.get('store').findAll('game');
+  },
   actions: {
     deleteGame(timestamp){
-      this.get('store').queryRecord('game', {'timestamp':timestamp})
-        .then(function(game){
-          game.deleteRecord();
-          game.save();
-        })
+      let c = this;
+      c.get('store').queryRecord('game', { 'timestamp': timestamp, }).then(function(game){
+        game.deleteRecord();
+        game.save();
+      })
+    },
+    joinGame(timestamp){
+    },
+    enterGame(timestamp){
     }
   }
 });

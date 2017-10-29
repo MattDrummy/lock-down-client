@@ -5,6 +5,7 @@ export default Ember.Route.extend({
     return {
       users: this.get('store').findAll('user'),
       games: this.get('store').findAll('game'),
+
     }
   }
 });
