@@ -3,15 +3,18 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   appCont: Ember.inject.controller('application'),
   loggedIn: Ember.computed.alias('appCont.loggedIn'),
+  user: Ember.computed.alias('appCont.user'),
+  email: Ember.computed.alias('appCont.email'),
   createGameRole: "operator",
   createGameEmail: "",
   actions: {
     createGame(modal){
-      let loggedIn = this.get('loggedIn')
+      let c = this;
+      let loggedIn = c.get('loggedIn')
       if (loggedIn) {
-        let owner = localStorage.user;
-        let ownerRole = this.get('createGameRole');
-        let email = this.get('createGameEmail');
+        let owner = c.get('user');
+        let ownerRole = c.get('createGameRole');
+        let email = c.get('createGameEmail');
         let publicRoom = email == "" ? true : false
         let operatorPassword = ''
         let alpha = ['a','b','c','d',
@@ -42,7 +45,7 @@ export default Ember.Controller.extend({
         ]
         let operativeLocation = locations[Math.floor(Math.random()*locations.length)];
 
-        let post = this.get('store').createRecord('game', {
+        let post = c.get('store').createRecord('game', {
           owner, ownerRole, publicRoom, operatorPassword, operatorPort, operativePort, operativeLocation,
         });
         post.save();
@@ -53,8 +56,9 @@ export default Ember.Controller.extend({
       modal.close();
     },
     closeModal(modal){
-      this.set('createGameRole', "operator")
-      this.set('createGameEmail', "")
+      let c = this
+      c.set('createGameRole', "operator")
+      c.set('createGameEmail', "")
       modal.close()
     }
   }

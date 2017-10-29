@@ -27,9 +27,6 @@ export default Ember.Controller.extend({
           tokenString: localStorage.token,
         }
       }).then(function(user){
-        localStorage.user = user.claims.username;
-        localStorage.email = user.claims.email;
-        localStorage.timestamp = user.claims.timestamp;
         c.set('user', user.claims.username);
         c.set('userEmail', user.claims.email);
         c.set('userTimestamp', user.claims.timestamp);
@@ -168,9 +165,6 @@ export default Ember.Controller.extend({
           return item.username == username;
         })[0]
         if (user.password == password) {
-          localStorage.user = user.username;
-          localStorage.email = user.email;
-          localStorage.timestamp = user.timestamp;
           c.set('user', user.username);
           c.set('userEmail', user.email);
           c.set('userTimestamp', user.timestamp);
@@ -197,10 +191,7 @@ export default Ember.Controller.extend({
       let c = this;
       c.set('loggedIn', false);
       let user = `guest${Math.ceil(Math.random()*8999) + 1000}`;
-      localStorage.user = user;
-      localStorage.removeItem('timestamp')
       localStorage.removeItem('token');
-      localStorage.removeItem('email')
       c.set('user', user);
       c.transitionToRoute('index');
     },
@@ -226,9 +217,6 @@ export default Ember.Controller.extend({
           dataType: 'json',
           data: sign,
         }).then(function(data){
-          localStorage.user = user.username;
-          localStorage.email = user.email;
-          localStorage.timestamp = user.timestamp;
           c.set('user', user.username);
           c.set('userEmail', user.email);
           c.set('userTimestamp', user.timestamp);
@@ -262,8 +250,6 @@ export default Ember.Controller.extend({
         c.set('loggedIn', false);
         let user = `guest${Math.ceil(Math.random()*8999) + 1000}`;
         let email = user + "@example.com"
-        localStorage.user = user;
-        localStorage.email = email
         localStorage.removeItem('token');
         c.set('user', user);
         c.set('userEmail', email);
