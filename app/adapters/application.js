@@ -10,12 +10,6 @@ export default DS.RESTAdapter.extend({
   shouldReloadAll: function() {
     return true;
   },
-  shouldBackgroundReloadRecord: function() {
-    return true;
-  },
-  shouldBackgroundReloadAll: function() {
-    return true;
-  },
   createRecord(store, type, snapshot){
     let data = this.serialize(snapshot, {includeId: false})
     let host = this.get('host');
