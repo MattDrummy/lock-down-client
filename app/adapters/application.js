@@ -41,7 +41,6 @@ export default DS.RESTAdapter.extend({
 
     return new Ember.RSVP.Promise(function(resolve, reject){
       Ember.$.getJSON(`${host}/${namespace}/${type.modelName}s`, query).then(function(data){
-        console.log(data);
         resolve(data)
       }, function(err){
         reject(err)
@@ -63,7 +62,7 @@ export default DS.RESTAdapter.extend({
     })
   },
   deleteRecord(store,type,snapshot){
-    let data = this.serialize(snapshot,{includeId: false})
+    let data = this.serialize(snapshot, {includeId: false})
     let timestamp = snapshot._attributes.timestamp;
     let host = this.get('host')
     let namespace = this.get('namespace')
@@ -100,5 +99,5 @@ export default DS.RESTAdapter.extend({
         Ember.run(null, reject, err);
       })
     })
-  }
+  },
 });

@@ -54,6 +54,9 @@ export default Ember.Controller.extend({
         .then((response)=>response._internalModel.__data)
         .then(function(game){
           if (game.publicRoom) {
+            let url = c.get('url')
+            const socket = c.get('socketIOService').socketFor(url)
+            socket.emit('gameAdded', 'lobby')
             c.transitionToRoute('game-lobby')
           }
         }).catch((err)=>{
@@ -65,9 +68,6 @@ export default Ember.Controller.extend({
               return game.save();
             })
             .then(()=>{
-              let url = c.get('url')
-              const socket = c.get('socketIOService').socketFor(url)
-              socket.emit('updateRecord', '')
               location.href = "/"
             });
           }

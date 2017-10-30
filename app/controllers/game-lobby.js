@@ -9,11 +9,7 @@ export default Ember.Controller.extend({
   lobby: "lobby",
   init(){
     let c = this;
-    this.set('lobbyChatMessages', []);
-    // this.get('store').findAll('game');
-    // setInterval(()=>{
-    //   this.get('store').findAll('game', {reload:true});
-    // }, 10000)
+    c.set('lobbyChatMessages', []);
   },
   actions: {
     deleteGame(timestamp){
@@ -21,12 +17,13 @@ export default Ember.Controller.extend({
       c.get('store').queryRecord('game', { 'timestamp': timestamp, })
       .then((game)=>{
         game.deleteRecord();
-        return game.save();
+        return game.save().then(()=>{
+          let url = c.get('url')
+          const socket = c.get('socketIOService').socketFor(url)
+          socket.emit("reloadLobby", '');
+          c.get('socketIOService').closeSocketFor(url);
+        });
       })
-    },
-    joinGame(timestamp){
-    },
-    enterGame(timestamp){
     },
   }
 });

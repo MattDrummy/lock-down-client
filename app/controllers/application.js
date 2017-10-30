@@ -159,13 +159,11 @@ export default Ember.Controller.extend({
       let password = c.get('logInPassword')
       c.get('store').findAll('user')
       .then((data)=>{
-        console.log(data);
         let user = data.content.map((item)=>{
           return item.__data;
         }).filter((item)=>{
           return item.username == username;
         })[0]
-        console.log(user);
         if (user.password == password) {
           c.set('user', user.username);
           c.set('userEmail', user.email);

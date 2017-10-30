@@ -5,5 +5,5 @@ export default Ember.Route.extend({
     return {
       games: this.get('store').findAll('game'),
     }
-  }
+  },
 });
