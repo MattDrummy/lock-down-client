@@ -26,10 +26,12 @@ export default Ember.Controller.extend({
       })
     },
     joinGame(timestamp, ownerrole){
+      let c = this
       localStorage.user = c.get('user')
       location.href = `/game/${ownerrole == "operator" ? "operative" : "operator"}/${timestamp}`
     },
     enterGame(timestamp, ownerrole){
+      let c = this;
       localStorage.user = c.get('user')
       location.href = `/game/${ownerrole}/${timestamp}`
     }

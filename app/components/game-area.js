@@ -53,7 +53,7 @@ export default Ember.Component.extend({
         }).then((data)=>{
           data.set('publicroom', false);
           return data.save();
-        }).then((data)=>{
+        }).then(()=>{
           const socket = c.get('socketIOService').socketFor(url)
           socket.emit('gameAdded')
         })
@@ -87,7 +87,7 @@ export default Ember.Component.extend({
       }).then((data)=>{
         data.set('publicroom', true);
         return data.save();
-      }).then((data)=>{
+      }).then(()=>{
         const socket = c.get('socketIOService').socketFor(url);
         socket.emit('close', [user,room]);
         socket.emit('gameAdded')
