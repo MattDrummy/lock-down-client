@@ -3,15 +3,15 @@
   <div class="games-list">
     <div class="games-window">
       {{#each model.games as |game|}}
-        {{#if game.publicRoom}}
+        {{#if game.publicroom}}
           <p>
             {{game.owner}} -
             {{game.timestamp}} -
             {{#if (is-game-owner user game.owner)}}
-              {{#link-to "game" game.ownerRole game.timestamp tagName="button"}}Enter Game {{/link-to}}
+              <button type="button" name="button" {{action "enterGame" game.timestamp game.ownerrole}}>Enter Game</button>
               <button type="button" name="button"{{action "deleteGame" game.timestamp}}>Delete Game</button>
             {{else}}
-              {{#link-to "game" (opposite-of-owner-role game.ownerRole) game.timestamp tagName="button"}}Join Game{{/link-to}}
+              <button type="button" name="button"{{action "joinGame" game.timestamp game.ownerrole}}>Join Game</button>
             {{/if}}
           </p>
         {{/if}}

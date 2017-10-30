@@ -15,10 +15,10 @@ export default Ember.Controller.extend({
       let loggedIn = c.get('loggedIn')
       if (loggedIn) {
         let owner = c.get('user');
-        let ownerRole = c.get('createGameRole');
+        let ownerrole = c.get('createGameRole');
         let email = c.get('createGameEmail');
-        let publicRoom = email == "" ? true : false
-        let operatorPassword = ''
+        let publicroom = email == "" ? true : false
+        let operatorpassword = ''
         let alpha = ['a','b','c','d',
         'e','f','g','h','i','j',
         'k','l','m','n','o','p',
@@ -28,16 +28,16 @@ export default Ember.Controller.extend({
           let rand = Math.floor(Math.random()*2)
           if (rand%2 == 0) {
             rand = Math.floor(Math.random()*10)
-            operatorPassword += rand
+            operatorpassword += rand
           } else {
             rand = Math.floor(Math.random()*26)
-            operatorPassword += alpha[rand]
+            operatorpassword += alpha[rand]
           }
         }
-        let operatorPort = (Math.floor(Math.random()*9000) + 1000).toString();
-        let operativePort = Math.floor(Math.random()*9000) + 1000;
-        while (operativePort == operatorPort) {
-          operativePort = Math.floor(Math.random()*9000) + 1000;
+        let operatorport = (Math.floor(Math.random()*9000) + 1000).toString();
+        let operativeport = Math.floor(Math.random()*9000) + 1000;
+        while (operativeport == operatorport) {
+          operativeport = Math.floor(Math.random()*9000) + 1000;
         }
         let locations = [
           "botany",
@@ -45,20 +45,23 @@ export default Ember.Controller.extend({
           "bridge",
           "medbay",
         ]
-        let operativeLocation = locations[Math.floor(Math.random()*locations.length)];
+        let operativelocation = locations[Math.floor(Math.random()*locations.length)];
 
         let post = c.get('store').createRecord('game', {
-          owner, ownerRole, publicRoom, operatorPassword, operatorPort, operativePort, operativeLocation,
+          owner, ownerrole, publicroom, operatorpassword, operatorport, operativeport, operativelocation,
         });
         post.save()
         .then((response)=>response._internalModel.__data)
         .then(function(game){
-          if (game.publicRoom) {
+          if (game.publicroom) {
             let url = c.get('url')
             const socket = c.get('socketIOService').socketFor(url)
-            socket.emit('gameAdded', 'lobby')
-            c.transitionToRoute('game-lobby')
+            return socket.emit('gameAdded')
           }
+        }).then(()=>{
+          setTimeout(()=>{
+            location.href = "/game-lobby"
+          }, 100)
         }).catch((err)=>{
           let r = confirm(err.responseJSON.error)
           if (r) {

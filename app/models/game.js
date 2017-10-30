@@ -2,11 +2,12 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   owner: DS.attr('string'),
-  ownerRole: DS.attr('string'),
-  publicRoom: DS.attr('boolean'),
+  ownerrole: DS.attr('string'),
+  publicroom: DS.attr('boolean'),
+  operatorpassword: DS.attr('string'),
+  operatorport: DS.attr('string'),
+  operativeport: DS.attr('string'),
+  operativelocation: DS.attr('string'),
   timestamp: DS.attr('number'),
-  operatorPassword: DS.attr('string'),
-  operatorPort: DS.attr('string'),
-  operativePort: DS.attr('string'),
-  operativeLocation: DS.attr('string'),
+
 });

@@ -74,7 +74,7 @@ export default Ember.Controller.extend({
           data.readOut.pushObject(`${data.currPath} ${data.command}`)
           data.readOut.pushObject(`USER = ${user}`)
           data.readOut.pushObject(`ROLE = engineer`)
-          data.readOut.pushObject(`PASSWORD = ${data.operatorPassword}`)
+          data.readOut.pushObject(`PASSWORD = ${data.operatorpassword}`)
         }
       },
     ])
@@ -98,7 +98,7 @@ export default Ember.Controller.extend({
           })[0]
           switch (data.option) {
             case "--open":
-              if (data.optionParams[0] === data.operatorPassword) {
+              if (data.optionParams[0] === data.operatorpassword) {
                 data.readOut.pushObject('DOOR HAS OPENED YOU WIN!')
                 return true;
               } else {

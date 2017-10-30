@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
-export function oppositeOfOwnerRole(ownerRole/*, hash*/) {
-  return ownerRole == "operator" ? "operative" : "operator"
+export function oppositeOfownerrole(ownerrole/*, hash*/) {
+  return ownerrole == "operator" ? "operative" : "operator"
 }
 
-export default Ember.Helper.helper(oppositeOfOwnerRole);
+export default Ember.Helper.helper(oppositeOfownerrole);

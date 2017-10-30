@@ -38,15 +38,14 @@ export default Ember.Component.extend({
       }
     })
     .then((game)=>{
-      console.log(game);
       let url = c.get('url')
       let user = c.get('user');
       let socket = c.get('socketIOService').socketFor(url)
       let gameChat = c.get('gameChatMessages');
-      c.set('operativeLocation', game.operativeLocation);
-      c.set('operativePort', game.operativePort);
-      c.set('operatorPassword', game.operatorPassword);
-      c.set('operatorPort', game.operatorPort);
+      c.set('operativelocation', game.operativelocation);
+      c.set('operativeport', game.operativeport);
+      c.set('operatorpassword', game.operatorpassword);
+      c.set('operatorport', game.operatorport);
       c.set('owner', game.owner);
       socket.emit('open', [user,room]);
       socket.on('close', (message)=>{
@@ -57,7 +56,17 @@ export default Ember.Component.extend({
         gameChat.pushObject(message)
         c.get('fixScroll')('chat-window')
       });
-
+      c.get('store').queryRecord('game', {
+        "timestamp": timestamp,
+      }).then((data)=>{
+        console.log(data);
+        data.set('publicroom', false);
+        return data.save();
+      }).then((data)=>{
+        console.log(data);
+        const socket = c.get('socketIOService').socketFor(url)
+        socket.emit('gameAdded')
+      })
     })
   },
   willDestroyElement(){
@@ -82,7 +91,7 @@ export default Ember.Component.extend({
       let readOut = c.get('consoleMessages');
       let commandList = c.get(`${role}Commands`);
       let fileStructure = c.get(`${role}FileStructure`);
-      let operatorPassword = c.get(`operatorPassword`);
+      let operatorpassword = c.get(`operatorpassword`);
       let port = c.get(`${role}Port`);
       let currLocation = c.get(`${role}Location`);
       let room = c.get('room');
@@ -93,7 +102,7 @@ export default Ember.Component.extend({
         currPath,
         command,
         option,
-        operatorPassword,
+        operatorpassword,
         port,
         optionParams,
         currLocation,
