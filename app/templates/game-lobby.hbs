@@ -11,8 +11,7 @@
               {{#link-to "game" game.ownerRole game.timestamp tagName="button"}}Enter Game {{/link-to}}
               <button type="button" name="button"{{action "deleteGame" game.timestamp}}>Delete Game</button>
             {{else}}
-              {{#link-to "game" (opposite-of-owner-role game.ownerRole) game.timestamp tagName="button"}}Enter Game{{/link-to}}
-              <button type="button" name="button" {{action "joinGame" game.timestamp}}>Join Game</button>
+              {{#link-to "game" (opposite-of-owner-role game.ownerRole) game.timestamp tagName="button"}}Join Game{{/link-to}}
             {{/if}}
           </p>
         {{/if}}
