@@ -26,8 +26,11 @@ export default Ember.Component.extend({
       lobbyChatMessages.pushObject(message)
       c.get('fixScroll')('chat-window')
     });
-    socket.on('reloadLobby', ()=>{
-      location.href = "/game-lobby"
+    socket.on('deleteGame', (id)=>{
+      c.get('store').peekRecord('game', id)
+      .then((data)=>{
+        data.deleteRecord();
+      })
     })
     socket.on('gameAdded', ()=>{
       c.get('store').findAll('game', {reload:true})

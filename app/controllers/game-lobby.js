@@ -12,7 +12,7 @@ export default Ember.Controller.extend({
     c.set('lobbyChatMessages', []);
   },
   actions: {
-    deleteGame(timestamp){
+    deleteGame(timestamp, id){
       let c = this;
       c.get('store').queryRecord('game', { 'timestamp': timestamp, })
       .then((game)=>{
@@ -20,7 +20,7 @@ export default Ember.Controller.extend({
         return game.save().then(()=>{
           let url = c.get('url')
           const socket = c.get('socketIOService').socketFor(url)
-          socket.emit("reloadLobby", '');
+          socket.emit("deleteGame", id);
           c.get('socketIOService').closeSocketFor(url);
         });
       })
