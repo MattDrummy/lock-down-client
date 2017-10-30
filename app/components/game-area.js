@@ -39,7 +39,7 @@ export default Ember.Component.extend({
     })
     .then((game)=>{
       let url = c.get('url')
-      let user = c.get('user');
+      let user = localStorage.user;
       let socket = c.get('socketIOService').socketFor(url)
       let gameChat = c.get('gameChatMessages');
       c.set('operativelocation', game.operativelocation);
@@ -47,6 +47,18 @@ export default Ember.Component.extend({
       c.set('operatorpassword', game.operatorpassword);
       c.set('operatorport', game.operatorport);
       c.set('owner', game.owner);
+      if (game.owner != user) {
+        c.get('store').queryRecord('game', {
+          "timestamp": timestamp,
+        }).then((data)=>{
+          data.set('publicroom', false);
+          return data.save();
+        }).then((data)=>{
+          const socket = c.get('socketIOService').socketFor(url)
+          socket.emit('gameAdded')
+        })
+      }
+
       socket.emit('open', [user,room]);
       socket.on('close', (message)=>{
         gameChat.pushObject(message)
@@ -56,16 +68,8 @@ export default Ember.Component.extend({
         gameChat.pushObject(message)
         c.get('fixScroll')('chat-window')
       });
-      c.get('store').queryRecord('game', {
-        "timestamp": timestamp,
-      }).then((data)=>{
-        console.log(data);
-        data.set('publicroom', false);
-        return data.save();
-      }).then((data)=>{
-        console.log(data);
-        const socket = c.get('socketIOService').socketFor(url)
-        socket.emit('gameAdded')
+      socket.on('deleteGame', ()=>{
+        location.href = "/"
       })
     })
   },
@@ -75,10 +79,32 @@ export default Ember.Component.extend({
     let url = c.get('url');
     let user = c.get('user');
     let room = c.get('room');
-    const socket = c.get('socketIOService').socketFor(url);
-    socket.emit('close', [user,room]);
-    c.set('gameChatMessages', []);
-    c.get('socketIOService').closeSocketFor(url)
+    let owner = c.get('owner');
+    let timestamp = c.get('timestamp')
+    if (owner != user) {
+      c.get('store').queryRecord('game', {
+        "timestamp": timestamp,
+      }).then((data)=>{
+        data.set('publicroom', true);
+        return data.save();
+      }).then((data)=>{
+        const socket = c.get('socketIOService').socketFor(url);
+        socket.emit('close', [user,room]);
+        socket.emit('gameAdded')
+        c.set('gameChatMessages', []);
+        c.get('socketIOService').closeSocketFor(url)
+      })
+    } else {
+      c.get('store').queryRecord('game', { 'timestamp': timestamp, })
+      .then((game)=>{
+        game.deleteRecord();
+        game.save().then(()=>{
+          let url = c.get('url');
+          const socket = c.get('socketIOService').socketFor(url);
+          socket.emit('deleteGame');
+        });
+      });
+    }
   },
   actions: {
     consoleEnter(){

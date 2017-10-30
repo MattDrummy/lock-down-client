@@ -10,6 +10,7 @@ export default Ember.Controller.extend({
   init(){
     let c = this;
     c.set('lobbyChatMessages', []);
+
   },
   actions: {
     deleteGame(timestamp){
@@ -25,9 +26,11 @@ export default Ember.Controller.extend({
       })
     },
     joinGame(timestamp, ownerrole){
+      localStorage.user = c.get('user')
       location.href = `/game/${ownerrole == "operator" ? "operative" : "operator"}/${timestamp}`
     },
     enterGame(timestamp, ownerrole){
+      localStorage.user = c.get('user')
       location.href = `/game/${ownerrole}/${timestamp}`
     }
   }
