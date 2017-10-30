@@ -26,7 +26,6 @@ export default Ember.Component.extend({
       lobbyChatMessages.pushObject(message)
       c.get('fixScroll')('chat-window')
     });
-
   },
   willDestroyElement(){
     let c = this
@@ -49,6 +48,6 @@ export default Ember.Component.extend({
       socket.emit("message", [lobby,`${user}: ${chatInput}`])
       c.set('chatInput', '')
       c.get('fixScroll')('chat-window')
-    }
+    },
   }
 });

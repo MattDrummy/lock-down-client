@@ -5,9 +5,15 @@ export default DS.RESTAdapter.extend({
   host: 'http://localhost:7000',
   namespace: 'api/v1',
   shouldReloadRecord: function() {
-   return true;
+    return true;
   },
   shouldReloadAll: function() {
+    return true;
+  },
+  shouldBackgroundReloadRecord: function() {
+    return true;
+  },
+  shouldBackgroundReloadAll: function() {
     return true;
   },
   createRecord(store, type, snapshot){
@@ -28,10 +34,25 @@ export default DS.RESTAdapter.extend({
       })
     })
   },
+  findAll(store, type, sinceToken){
+    let query = { since: sinceToken };
+    let host = this.get('host')
+    let namespace = this.get('namespace')
+
+    return new Ember.RSVP.Promise(function(resolve, reject){
+      Ember.$.getJSON(`${host}/${namespace}/${type.modelName}s`, query).then(function(data){
+        console.log(data);
+        resolve(data)
+      }, function(err){
+        reject(err)
+      })
+    })
+  },
   findRecord(store, type, id){
     let host = this.get('host')
     let namespace = this.get('namespace')
     let timestamp = id;
+
     return new Ember.RSVP.Promise(function(resolve,reject){
       Ember.$.getJSON(`${host}/${namespace}/${type.modelName}s/${timestamp}`)
         .then(function(data){

@@ -5,6 +5,8 @@ export default Ember.Controller.extend({
   loggedIn: Ember.computed.alias('appCont.loggedIn'),
   user: Ember.computed.alias('appCont.user'),
   email: Ember.computed.alias('appCont.email'),
+  socketIOService: Ember.computed.alias('appCont.socketIOService'),
+  url: Ember.computed.alias('appCont.url'),
   createGameRole: "operator",
   createGameEmail: "",
   actions: {
@@ -63,6 +65,9 @@ export default Ember.Controller.extend({
               return game.save();
             })
             .then(()=>{
+              let url = c.get('url')
+              const socket = c.get('socketIOService').socketFor(url)
+              socket.emit('updateRecord', '')
               location.href = "/"
             });
           }

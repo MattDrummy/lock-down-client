@@ -159,11 +159,13 @@ export default Ember.Controller.extend({
       let password = c.get('logInPassword')
       c.get('store').findAll('user')
       .then((data)=>{
+        console.log(data);
         let user = data.content.map((item)=>{
           return item.__data;
         }).filter((item)=>{
           return item.username == username;
         })[0]
+        console.log(user);
         if (user.password == password) {
           c.set('user', user.username);
           c.set('userEmail', user.email);
@@ -194,7 +196,7 @@ export default Ember.Controller.extend({
       let user = `guest${Math.ceil(Math.random()*8999) + 1000}`;
       localStorage.removeItem('token');
       c.set('user', user);
-      c.transitionToRoute('index');
+      location.href = "/"
     },
     signUp(modal){
       let c = this
