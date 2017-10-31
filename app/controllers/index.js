@@ -53,15 +53,43 @@ export default Ember.Controller.extend({
         post.save()
         .then((response)=>response._internalModel.__data)
         .then(function(game){
+          let url = c.get('url')
+          const socket = c.get('socketIOService').socketFor(url)
           if (game.publicroom) {
-            let url = c.get('url')
-            const socket = c.get('socketIOService').socketFor(url)
-            return socket.emit('gameAdded')
+            socket.emit('gameAdded')
+            setTimeout(()=>{
+              location.href = "/game-lobby"
+            }, 100)
+          } else {
+            Ember.$.ajax({
+              type: 'POST',
+              url: `http://localhost:7000/email`,
+              dataType: 'json',
+              data: {
+                subject: `Come play $lockDown with ${owner}`,
+                recipient: email,
+                body: `
+                  <div style="background-color:#000700;color:rgb(50,200,50);padding:3em 2em;font-family:Courier,monospace;">
+                    <h1 style="text-align:center;font-size:1.5em;">$lockDown</h1>
+
+                    <p style="text-indent:2em; font-size:1.5em;">Greetings, you have been invited to come play a game of $lockDown from a friend of yours.  If you're interested, you don't even need an account.  All you have to is click the link below to play!  Fear not, you can play on your desktop or mobile web browser.</p>
+                    <p style="text-indent:2em; font-size:1.5em;">In this game, you are stranded aboard a space station that has been deserted.  Most systems are offline, and most doors are on lockDown().  However, you are not alone!  There is another person stranded aboard the staiton, and with their help, you both may be able to escape to tell this tale.</p>
+                    <p style="text-indent:2em; font-size:1.5em;">But, one of you is stranded in Engineering, unable to leave, the other is wandering the station.  Luckilly, both of you found a communication device to speak to each other.  Perhaps if you work together, you can over come the struggles of the station.</p>
+
+                    <p style="text-indent:2em; font-size:1.5em;">Now is the time to decide if you're up for the challenge.  Click the link below and you will be transported into the game.</p>
+
+                    <h2 style="text-align:center; font-size:1.5em;"><a href="https://lock-down-the-game.herokuapp.com/game/${ownerrole == "operator" ? "operative" : "operator"}/${game.timestamp}">ENTER GAME</a></h2>
+                  </div>
+                `
+              }
+            }).then(()=>{
+              setTimeout(()=>{
+                location.href = `/game/${game.ownerrole}/${game.timestamp}`
+              }, 100)
+            }).catch((err)=>{
+              alert(err)
+            })
           }
-        }).then(()=>{
-          setTimeout(()=>{
-            location.href = "/game-lobby"
-          }, 100)
         }).catch((err)=>{
           let r = confirm(err.responseJSON.error)
           if (r) {
