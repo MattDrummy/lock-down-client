@@ -15,11 +15,13 @@
 
       {{#each model.games as |game|}}
       {{#if game.publicroom}}
-        <p>
-          {{game.owner}} -
-          {{game.timestamp}} -
-            <button type="button" name="button"{{action "joinGame" game.timestamp game.ownerrole}}>Join Game</button>
-        </p>
+        {{#unless (is-game-owner user game.owner)}}
+          <p>
+            {{game.owner}} -
+            {{game.timestamp}} -
+              <button type="button" name="button"{{action "joinGame" game.timestamp game.ownerrole}}>Join Game</button>
+          </p>
+        {{/unless}}
       {{/if}}
       {{/each}}
 
