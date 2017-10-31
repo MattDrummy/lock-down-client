@@ -9,6 +9,9 @@ export default Ember.Controller.extend({
   url: Ember.computed.alias('appCont.url'),
   createGameRole: "operator",
   createGameEmail: "",
+  init(){
+    console.log(this.get("createGameEmail"));
+  }
   actions: {
     createGame(modal){
       let c = this;
