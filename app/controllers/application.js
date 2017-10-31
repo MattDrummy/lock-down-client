@@ -57,7 +57,7 @@ export default Ember.Controller.extend({
     {
       command: "whereami",
       options: [],
-      desc: "prints out information on the server's confirmation",
+      desc: "prints out information on the server's information",
       run: (data)=>{
         data.readOut.pushObject(`${data.currPath} ${data.command}`);
         data.readOut.pushObject(`LOCATION = ${data.currlocation}`);

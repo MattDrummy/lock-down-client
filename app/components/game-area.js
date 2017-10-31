@@ -86,7 +86,7 @@ export default Ember.Component.extend({
     let user = c.get('user');
     let room = c.get('room');
     let owner = c.get('gameData').owner;
-    let timestamp = c.get('timestamp')
+    let timestamp = c.get('timestamp');
     if (owner != user) {
       // When guest leaving page
 
@@ -130,7 +130,7 @@ export default Ember.Component.extend({
       let gameData = c.get('gameData');
       let operatorpassword = gameData.operatorpassword;
       let port = gameData[`${role}port`]
-      let currlocation = gameData[`${role}location`]
+      let currlocation = role == "operator" ? "engineering" : gameData[`operativelocation`]
       let room = c.get('room');
       let socketIOService = c.get('socketIOService');
       let data = {
