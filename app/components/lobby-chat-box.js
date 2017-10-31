@@ -26,11 +26,11 @@ export default Ember.Component.extend({
       lobbyChatMessages.pushObject(message)
       c.get('fixScroll')('chat-window')
     });
-    socket.on('deleteGame', ()=>{
+    socket.on('gameDeleted', ()=>{
       c.get('store').unloadAll('game');
       c.get('store').findAll('game', {reload:true})
     });
-    socket.on('gameAdded', ()=>{
+    socket.on('updateGameList', ()=>{
       c.get('store').findAll('game', {reload:true})
     });
   },

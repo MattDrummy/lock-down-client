@@ -21,7 +21,7 @@ export default Ember.Controller.extend({
         game.save().then(()=>{
           let url = c.get('url');
           const socket = c.get('socketIOService').socketFor(url);
-          socket.emit('deleteGame');
+          socket.emit('gameDeleted');
         });
       })
     },

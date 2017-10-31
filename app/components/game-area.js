@@ -55,7 +55,7 @@ export default Ember.Component.extend({
           return data.save();
         }).then(()=>{
           const socket = c.get('socketIOService').socketFor(url)
-          socket.emit('gameAdded')
+          socket.emit('updateGameList')
         })
       }
 
@@ -68,8 +68,12 @@ export default Ember.Component.extend({
         gameChat.pushObject(message)
         c.get('fixScroll')('chat-window')
       });
-      socket.on('deleteGame', ()=>{
+      socket.on('gameDeleted', ()=>{
         location.href = "/"
+      })
+      socket.on('gameConsole', (message)=>{
+        let [user, role, message] = message.split('~')
+        console.log(message);
       })
     })
   },
@@ -90,7 +94,7 @@ export default Ember.Component.extend({
       }).then(()=>{
         const socket = c.get('socketIOService').socketFor(url);
         socket.emit('close', [user,room]);
-        socket.emit('gameAdded')
+        socket.emit('updateGameList')
         c.set('gameChatMessages', []);
         c.get('socketIOService').closeSocketFor(url)
       })
@@ -101,7 +105,7 @@ export default Ember.Component.extend({
         game.save().then(()=>{
           let url = c.get('url');
           const socket = c.get('socketIOService').socketFor(url);
-          socket.emit('deleteGame');
+          socket.emit('gameDelete');
         });
       });
     }
@@ -121,6 +125,7 @@ export default Ember.Component.extend({
       let port = c.get(`${role}Port`);
       let currLocation = c.get(`${role}Location`);
       let room = c.get('room');
+      let socketIOService = c.get('socketIOService')
       let data = {
         commandList,
         fileStructure,
@@ -132,26 +137,21 @@ export default Ember.Component.extend({
         port,
         optionParams,
         currLocation,
+        socketIOService,
       }
-      if (command == "change") {
-        c.set('role', role == "operator" ? "operative" : "operator");
-        readOut.pushObject(`${currPath} ${c.get('consoleInput')}`)
-        readOut.pushObject(`Changed role to ${c.get('role')}`);
-      } else {
-        let operation = commandList.filter((e)=>{
-          return e.command == command
-        })[0]
-        if (operation) {
-          if (operation.run(data)) {
-            const socket = c.get('socketIOService').socketFor(c.get('url'))
-            socket.emit("message", [room, `YOU WIN!`])
-            c.set('chatInput', '')
-            c.get('fixScroll')('chat-window')
-          }
-        } else {
-          readOut.pushObject(`${currPath} ${c.get('consoleInput')}`)
-          readOut.pushObject("no such command exists")
+      let operation = commandList.filter((e)=>{
+        return e.command == command
+      })[0]
+      if (operation) {
+        if (operation.run(data)) {
+          const socket = c.get('socketIOService').socketFor(c.get('url'))
+          socket.emit("message", [room, `YOU WIN!`])
+          c.set('chatInput', '')
+          c.get('fixScroll')('chat-window')
         }
+      } else {
+        readOut.pushObject(`${currPath} ${c.get('consoleInput')}`)
+        readOut.pushObject("no such command exists")
       }
       readOut.pushObject(currPath)
       c.set('consoleInput', '')

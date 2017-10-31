@@ -56,7 +56,7 @@ export default Ember.Controller.extend({
           let url = c.get('url')
           const socket = c.get('socketIOService').socketFor(url)
           if (game.publicroom) {
-            socket.emit('gameAdded')
+            socket.emit('updateGameList')
             setTimeout(()=>{
               location.href = "/game-lobby"
             }, 100)
