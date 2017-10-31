@@ -206,7 +206,7 @@ export default Ember.Controller.extend({
       c.set('loggedIn', false);
       let user = `guest${Math.ceil(Math.random()*8999) + 1000}`;
       localStorage.removeItem('token');
-      localStorage.remoteItem('user');
+      localStorage.removeItem('user');
       c.set('user', user);
       location.href = "/"
     },
