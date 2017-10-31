@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
   socketIOService: Ember.computed.alias('appCont.socketIOService'),
   url: Ember.computed.alias('appCont.url'),
   createGameRole: "operator",
-  createGameEmail: 'enter email here',
+  createGameEmail: "",
   actions: {
     createGame(modal){
       let c = this;
