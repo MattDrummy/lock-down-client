@@ -10,9 +10,9 @@
         <button type="button" name="button" {{action "enterGame" game.timestamp game.ownerrole}}>Enter Game</button>
         <button type="button" name="button"{{action "deleteGame" game.timestamp}}>Delete Game</button>
       </p>
-      {{else}}
+      {{/if}}
       {{/each}}
-      
+
       {{#each model.games as |game|}}
       {{#if game.publicroom}}
         <p>
