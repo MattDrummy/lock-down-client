@@ -57,6 +57,7 @@ export default Ember.Controller.extend({
           if (game.publicroom) {
             let socket = c.get('socketIOService').socketFor(url)
             socket.emit('updateGameList')
+            return
           } else {
             Ember.$.ajax({
               type: 'POST',
@@ -87,7 +88,13 @@ export default Ember.Controller.extend({
               alert(err)
             })
           }
-        }).catch((err)=>{
+        })
+        .then(()=>{
+          setTimeout(()=>{
+            location.href = `/`
+          }, 500)
+        })
+        .catch((err)=>{
           let r = confirm(err.responseJSON.error)
           if (r) {
             c.get('store').queryRecord('game', {'owner':owner})
