@@ -60,7 +60,7 @@ export default Ember.Controller.extend({
           } else {
             Ember.$.ajax({
               type: 'POST',
-              url: `http://localhost:7000/email`,
+              url: `http://lock-down-the-game.com/email`,
               dataType: 'json',
               data: {
                 subject: `Come play $lockDown with ${owner}`,
