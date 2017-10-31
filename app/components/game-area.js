@@ -7,6 +7,7 @@ export default Ember.Component.extend({
   consoleMessages: [],
   gameChatMessages: [],
   currNode: "",
+  operatorlocation: "engineering",
   fixScroll: (targetDiv)=>{
     setTimeout(()=>{
       let objDiv = document.getElementsByClassName(targetDiv)[0]
@@ -50,6 +51,7 @@ export default Ember.Component.extend({
       let user = localStorage.user;
       let socket = c.get('socketIOService').socketFor(url)
       let gameChat = c.get('gameChatMessages');
+      c.set('gameData', game);
       c.set('operativelocation', game.operativelocation);
       c.set('operativeport', game.operativeport);
       c.set('operatorpassword', game.operatorpassword);
@@ -83,7 +85,7 @@ export default Ember.Component.extend({
     let url = c.get('url');
     let user = c.get('user');
     let room = c.get('room');
-    let owner = c.get('owner');
+    let owner = c.get('gameData').owner;
     let timestamp = c.get('timestamp')
     if (owner != user) {
       // When guest leaving page
@@ -125,9 +127,10 @@ export default Ember.Component.extend({
       let readOut = c.get('consoleMessages');
       let commandList = c.get(`${role}Commands`);
       let fileStructure = c.get(`${role}FileStructure`);
-      let operatorpassword = c.get(`operatorpassword`);
-      let port = c.get(`${role}port`);
-      let currLocation = c.get(`${role}Location`);
+      let gameData = c.get('gameData');
+      let operatorpassword = gameData.operatorpassword;
+      let port = gameData[`${role}port`]
+      let currlocation = gameData[`${role}location`]
       let room = c.get('room');
       let socketIOService = c.get('socketIOService');
       let data = {
@@ -140,7 +143,7 @@ export default Ember.Component.extend({
         operatorpassword,
         port,
         optionParams,
-        currLocation,
+        currlocation,
         socketIOService,
       }
       let operation = commandList.filter((e)=>{
