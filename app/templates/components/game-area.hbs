@@ -15,7 +15,11 @@
   <div class="game-block">
     <div class="game-info">
       <p>Welcome to the game-page, your current role is {{role}}</p>
-      
+      {{#if (user-is-operator role)}}
+        <p>As the operator, you're tasked with helping the operative overcome obstacles by accessing the main server for passwords and other information.  You, yourself, are trapped with no way to escape without the operative's help.</p>
+      {{/else}}
+        <p>As the operative, you are trapped in the station and unable to escape without the operator's help.  You will have to use local terminals to find information on where you are and what you need to do.  Give this information to the operator and they can help you escape.</p>
+      {{/if}}
       <p>If you're not sure what to do, you can type --help to get started</p>
     </div>
     <div class="game-chat-area">
