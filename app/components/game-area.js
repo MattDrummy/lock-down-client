@@ -129,7 +129,9 @@ export default Ember.Component.extend({
       let port = c.get(`${role}Port`);
       let currLocation = c.get(`${role}Location`);
       let room = c.get('room');
-      let socketIOService = c.get('socketIOService')
+      let socketIOService = c.get('socketIOService');
+      let operatorport =  c.get('operatorport');
+      let operatorlocation = "engineering";
       let data = {
         commandList,
         fileStructure,
@@ -142,6 +144,8 @@ export default Ember.Component.extend({
         optionParams,
         currLocation,
         socketIOService,
+        operatorport,
+        operatorlocation,
       }
       let operation = commandList.filter((e)=>{
         return e.command == command

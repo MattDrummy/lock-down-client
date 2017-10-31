@@ -224,10 +224,14 @@ main {
   overflow-x: hidden;
 }
 
-.chat-window,
 .console-window, {
   word-break: break-all;
 }
+
+.chat-window, {
+  word-wrap: normal;
+}
+
 
 // GAME AREA ===================================================================
 

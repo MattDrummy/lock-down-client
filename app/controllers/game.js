@@ -9,4 +9,5 @@ export default Ember.Controller.extend({
   operativeCommands: Ember.computed.alias('appCont.operativeCommands'),
   operatorFileStructure: Ember.computed.alias('appCont.operatorFileStructure'),
   operativeFileStructure: Ember.computed.alias('appCont.operativeFileStructure'),
+  
 });

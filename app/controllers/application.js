@@ -61,7 +61,7 @@ export default Ember.Controller.extend({
       run: (data)=>{
         data.readOut.pushObject(`${data.currPath} ${data.command}`);
         data.readOut.pushObject(`LOCATION = ${data.currLocation}`);
-        data.readOut.pushObject(`PORT = ${data.port}`);
+        data.readOut.pushObject(`PORT = ${data.operatorPort}`);
       }
     },
 
