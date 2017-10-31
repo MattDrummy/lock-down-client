@@ -184,6 +184,11 @@ export default Ember.Controller.extend({
           .then((response)=>{
             localStorage.token = response.tokenString;
           })
+          .catch((err)=>{
+            alert(err.responseJSON.error);
+          })
+        } else{
+          alert('password is incorrect! Please try again.')
         }
       })
       modal.close()

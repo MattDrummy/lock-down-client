@@ -27,6 +27,8 @@ export default Ember.Component.extend({
       c.get('fixScroll')('chat-window')
     });
     socket.on('deleteGame', ()=>{
+      c.get('store').unloadAll('game');
+      c.get('store').findAll('game', {reload:true})
     });
     socket.on('gameAdded', ()=>{
       c.get('store').findAll('game', {reload:true})
