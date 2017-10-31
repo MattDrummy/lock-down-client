@@ -57,7 +57,7 @@ export default Ember.Controller.extend({
           if (game.publicroom) {
             let socket = c.get('socketIOService').socketFor(url)
             socket.emit('updateGameList')
-            return
+            return true
           } else {
             Ember.$.ajax({
               type: 'POST',
@@ -80,19 +80,21 @@ export default Ember.Controller.extend({
                   </div>
                 `
               }
-            }).then(()=>{
-              setTimeout(()=>{
-                location.href = `/game/${game.ownerrole}/${game.timestamp}`
-              }, 100)
             }).catch((err)=>{
               alert(err)
             })
           }
         })
-        .then(()=>{
-          setTimeout(()=>{
-            location.href = `/`
-          }, 500)
+        .then((publicGame)=>{
+          if (publicGame) {
+            setTimeout(()=>{
+              location.href = `/game/${game.ownerrole}/${game.timestamp}`
+            }, 500)
+          } else {
+            setTimeout(()=>{
+              location.href = `/`
+            }, 500)
+          }
         })
         .catch((err)=>{
           let r = confirm(err.responseJSON.error)
