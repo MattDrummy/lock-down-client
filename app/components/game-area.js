@@ -72,8 +72,7 @@ export default Ember.Component.extend({
         location.href = "/"
       })
       socket.on('gameConsole', (message)=>{
-        let [user, role, message] = message.split('~')
-        console.log(message);
+        let messageArray = message.split('~')
       })
     })
   },

@@ -250,7 +250,7 @@ main {
 }
 
 .game-info {
-  width: 40%;
+  width: 80%;
   margin-right: 1em;
 }
 
@@ -349,6 +349,24 @@ main {
     font-size: 1em;
   }
 
+  .command-console,
+  .game-block,
+  .input-box {
+    padding: 0.2em;
+  }
+
+  .game-info {
+    margin-right: 0.2em;
+  }
+  .game-block .input-box {
+    flex-direction: column;
+  }
+
+  .game-block .input-box input,
+  .game-block .input-box button, {
+    margin: 0.2em;
+    height: 4em;
+  }
 }
 
 @media (max-width: 530px) {
