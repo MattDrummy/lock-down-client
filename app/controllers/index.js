@@ -11,7 +11,7 @@ export default Ember.Controller.extend({
   createGameEmail: "",
   init(){
     console.log(this.get("createGameEmail"));
-  }
+  },
   actions: {
     createGame(modal){
       let c = this;
