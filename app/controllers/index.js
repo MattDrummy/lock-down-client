@@ -91,11 +91,11 @@ export default Ember.Controller.extend({
         .then((data)=>{
           if (data.publicGame) {
             setTimeout(()=>{
-              location.href = `/game/${data.game.ownerrole}/${data.game.timestamp}`
+              location.href = `/`
             }, 500)
           } else {
             setTimeout(()=>{
-              location.href = `/`
+              location.href = `/game/${data.game.ownerrole}/${data.game.timestamp}`
             }, 500)
           }
         })

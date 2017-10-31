@@ -60,8 +60,8 @@ export default Ember.Controller.extend({
       desc: "prints out information on the server's confirmation",
       run: (data)=>{
         data.readOut.pushObject(`${data.currPath} ${data.command}`);
-        data.readOut.pushObject(`LOCATION = ${data.currLocation}`);
-        data.readOut.pushObject(`PORT = ${data.operatorPort}`);
+        data.readOut.pushObject(`LOCATION = ${data.currlocation}`);
+        data.readOut.pushObject(`PORT = ${data.port}`);
       }
     },
 
