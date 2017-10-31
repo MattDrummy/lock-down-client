@@ -2,7 +2,13 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   loggedIn: false,
-  user: `guest${Math.ceil(Math.random()*8999 + 1000)}`,
+  user: Ember.computed(()=>{
+    if (localStorage.user) {
+      return localStorage.user
+    } else {
+      return `guest${Math.ceil(Math.random()*8999 + 1000)}`
+    }
+  }),
   userEmail: "test@example.no",
   userTimestamp: "",
   logInUsername: "",
@@ -26,6 +32,7 @@ export default Ember.Controller.extend({
           tokenString: localStorage.token,
         }
       }).then((user)=>{
+        localStorage.user = user.claims.username
         c.set('user', user.claims.username);
         c.set('userEmail', user.claims.email);
         c.set('userTimestamp', user.claims.timestamp);
@@ -182,6 +189,7 @@ export default Ember.Controller.extend({
             },
           })
           .then((response)=>{
+            localStorage.user = username;
             localStorage.token = response.tokenString;
           })
           .catch((err)=>{
@@ -198,6 +206,7 @@ export default Ember.Controller.extend({
       c.set('loggedIn', false);
       let user = `guest${Math.ceil(Math.random()*8999) + 1000}`;
       localStorage.removeItem('token');
+      localStorage.remoteItem('user');
       c.set('user', user);
       location.href = "/"
     },
@@ -233,6 +242,7 @@ export default Ember.Controller.extend({
           c.set('signUpEmail', '');
           c.set('signUpPassword', '');
           localStorage.token = data.tokenString;
+          localStorage.user = user.username;
           modal.close()
         })
       })
@@ -262,6 +272,7 @@ export default Ember.Controller.extend({
         let user = `guest${Math.ceil(Math.random()*8999) + 1000}`;
         let email = user + "@example.com"
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         c.set('user', user);
         c.set('userEmail', email);
         c.transitionToRoute('index');
@@ -283,6 +294,25 @@ export default Ember.Controller.extend({
         data.set('username', username != "" ? username : user.username );
         data.set('email', email != "" ? email : user.email );
         data.set('password', password != "" ? password : user.password );
+        Ember.$.ajax({
+          type: 'POST',
+          url: `${c.get('url')}/signJWT`,
+          dataType: 'json',
+          data: {
+            username: user.username,
+            email: user.email,
+            password: user.password,
+            timestamp: user.timestamp,
+          },
+        })
+        .then((response)=>{
+          localStorage.user = user.username;
+          localStorage.token = response.tokenString;
+        })
+        .catch((err)=>{
+          alert(err.responseJSON.error);
+        })
+
         return data.save()
       })
       .then((response)=>response._internalModel.__data)
