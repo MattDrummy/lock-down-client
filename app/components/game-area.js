@@ -14,6 +14,8 @@ export default Ember.Component.extend({
     })
   },
   init(){
+    // Prepare game page
+
     let c = this
     c._super(...arguments);
     c.set('gameChatMessages', [])
@@ -25,6 +27,9 @@ export default Ember.Component.extend({
     let role = this.model.role
     c.set('currNode', c.get(`${role}FileStructure`))
     let room = timestamp;
+
+    // Check for game instance
+
     this.get('model').games.then((response)=>{
       let games = response.content.map((e)=>{
         return e.__data
@@ -38,6 +43,9 @@ export default Ember.Component.extend({
       }
     })
     .then((game)=>{
+
+      // Load game variables
+
       let url = c.get('url')
       let user = localStorage.user;
       let socket = c.get('socketIOService').socketFor(url)
@@ -47,17 +55,8 @@ export default Ember.Component.extend({
       c.set('operatorpassword', game.operatorpassword);
       c.set('operatorport', game.operatorport);
       c.set('owner', game.owner);
-      if (game.owner != user) {
-        c.get('store').queryRecord('game', {
-          "timestamp": timestamp,
-        }).then((data)=>{
-          data.set('publicroom', false);
-          return data.save();
-        }).then(()=>{
-          const socket = c.get('socketIOService').socketFor(url)
-          socket.emit('updateGameList')
-        })
-      }
+
+      // Set up sockets
 
       socket.emit('open', [user,room]);
       socket.on('close', (message)=>{
@@ -77,6 +76,8 @@ export default Ember.Component.extend({
     })
   },
   willDestroyElement(){
+    // When leaving page
+
     let c = this
     c._super(...arguments);
     let url = c.get('url');
@@ -85,6 +86,8 @@ export default Ember.Component.extend({
     let owner = c.get('owner');
     let timestamp = c.get('timestamp')
     if (owner != user) {
+      // When guest leaving page
+
       c.get('store').queryRecord('game', {
         "timestamp": timestamp,
       }).then((data)=>{
@@ -98,6 +101,8 @@ export default Ember.Component.extend({
         c.get('socketIOService').closeSocketFor(url)
       })
     } else {
+      // When owner leaving page
+
       c.get('store').queryRecord('game', { 'timestamp': timestamp, })
       .then((game)=>{
         game.deleteRecord();

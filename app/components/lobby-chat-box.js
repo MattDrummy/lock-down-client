@@ -27,10 +27,12 @@ export default Ember.Component.extend({
       c.get('fixScroll')('chat-window')
     });
     socket.on('gameDeleted', ()=>{
+      console.log("gameDeleted");
       c.get('store').unloadAll('game');
       c.get('store').findAll('game', {reload:true})
     });
     socket.on('updateGameList', ()=>{
+      console.log("update");
       c.get('store').findAll('game', {reload:true})
     });
   },

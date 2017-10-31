@@ -54,12 +54,9 @@ export default Ember.Controller.extend({
         .then((response)=>response._internalModel.__data)
         .then(function(game){
           let url = c.get('url')
-          const socket = c.get('socketIOService').socketFor(url)
           if (game.publicroom) {
+            let socket = c.get('socketIOService').socketFor(url)
             socket.emit('updateGameList')
-            setTimeout(()=>{
-              location.href = "/game-lobby"
-            }, 100)
           } else {
             Ember.$.ajax({
               type: 'POST',
