@@ -3,19 +3,26 @@
   <div class="games-list">
     <div class="games-window">
       {{#each model.games as |game|}}
-        {{#if game.publicroom}}
-          <p>
-            {{game.owner}} -
-            {{game.timestamp}} -
-            {{#if (is-game-owner user game.owner)}}
-              <button type="button" name="button" {{action "enterGame" game.timestamp game.ownerrole}}>Enter Game</button>
-              <button type="button" name="button"{{action "deleteGame" game.timestamp}}>Delete Game</button>
-            {{else}}
-              <button type="button" name="button"{{action "joinGame" game.timestamp game.ownerrole}}>Join Game</button>
-            {{/if}}
-          </p>
-        {{/if}}
+      {{#if (is-game-owner user game.owner)}}
+      <p>
+        {{game.owner}} -
+        {{game.timestamp}} -
+        <button type="button" name="button" {{action "enterGame" game.timestamp game.ownerrole}}>Enter Game</button>
+        <button type="button" name="button"{{action "deleteGame" game.timestamp}}>Delete Game</button>
+      </p>
+      {{else}}
       {{/each}}
+      
+      {{#each model.games as |game|}}
+      {{#if game.publicroom}}
+        <p>
+          {{game.owner}} -
+          {{game.timestamp}} -
+            <button type="button" name="button"{{action "joinGame" game.timestamp game.ownerrole}}>Join Game</button>
+        </p>
+      {{/if}}
+      {{/each}}
+
     </div>
   </div>
   <div class="lobby-chat-area">
