@@ -166,18 +166,35 @@ export default Ember.Controller.extend({
     },
     editUser(modal){
       let c = this;
-      let username = c.get('editUsername');
-      let email = c.get('editEmail');
-      let password = c.get('editPassword');
       let timestamp = c.get('userTimestamp');
+      c.set('editEmail', "");
+      c.set('editUsername', "");
+      c.set('editPassword', "");
       c.get('store').queryRecord('user', {
         "timestamp": timestamp,
       })
       .then((data)=>{
         let user = data._internalModel.__data;
-        data.set('username', username != "" ? username : user.username );
-        data.set('email', email != "" ? email : user.email );
-        data.set('password', password != "" ? password : user.password );
+        let username = c.get('editUsername');
+        let email = c.get('editEmail');
+        let password = c.get('editPassword');
+        if (username != "") {
+          data.set('username', username );
+        }
+        if (email != "") {
+          data.set('email', email );
+        }
+        if (password != "") {
+          data.set('password', password );
+        }
+        return data.save()
+      })
+      .then((response)=>response._internalModel.__data)
+      .then((user)=>{
+        localStorage.user = user.username;
+        c.set('user', user.username);
+        c.set('userEmail', user.email);
+        c.set('userTimestamp', user.timestamp);
         Ember.$.ajax({
           type: 'POST',
           url: `${c.get('url')}/signJWT`,
@@ -190,24 +207,12 @@ export default Ember.Controller.extend({
           },
         })
         .then((response)=>{
-          localStorage.user = user.username;
           localStorage.token = response.tokenString;
+          modal.close();
         })
         .catch((err)=>{
           alert(err.responseJSON.error);
         })
-
-        return data.save()
-      })
-      .then((response)=>response._internalModel.__data)
-      .then((user)=>{
-        c.set('user', user.username);
-        c.set('userEmail', user.email);
-        c.set('userTimestamp', user.timestamp);
-        c.set('editEmail', "");
-        c.set('editUsername', "");
-        c.set('editPassword', "");
-        modal.close();
       })
     }
   }
