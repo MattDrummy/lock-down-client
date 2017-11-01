@@ -167,9 +167,6 @@ export default Ember.Controller.extend({
     editUser(modal){
       let c = this;
       let timestamp = c.get('userTimestamp');
-      c.set('editEmail', "");
-      c.set('editUsername', "");
-      c.set('editPassword', "");
       c.get('store').queryRecord('user', {
         "timestamp": timestamp,
       })
@@ -209,6 +206,9 @@ export default Ember.Controller.extend({
         })
         .then((response)=>{
           localStorage.token = response.tokenString;
+          c.set('editEmail', "");
+          c.set('editUsername', "");
+          c.set('editPassword', "");
           modal.close();
         })
         .catch((err)=>{
