@@ -20,7 +20,7 @@ export default Ember.Controller.extend({
   editEmail: undefined,
   editPassword: undefined,
   socketIOService: Ember.inject.service('socket-io'),
-  url: `http://localhost:7000`,
+  url: `https://lock-down-the-game.herokuapp.com`,
   init(){
     if (localStorage.token) {
       let c = this;
