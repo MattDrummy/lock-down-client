@@ -178,6 +178,7 @@ export default Ember.Controller.extend({
         let username = c.get('editUsername');
         let email = c.get('editEmail');
         let password = c.get('editPassword');
+        console.log(username, email, password);
         if (username != "") {
           data.set('username', username );
         }
@@ -191,7 +192,6 @@ export default Ember.Controller.extend({
       })
       .then((response)=>response._internalModel.__data)
       .then((user)=>{
-        console.log(user);
         localStorage.user = user.username;
         c.set('user', user.username);
         c.set('userEmail', user.email);
