@@ -141,6 +141,9 @@ export default Ember.Controller.extend({
       c.set('signUpPassword', '');
       c.set('logInPassword', "");
       c.set('logInUsername', "");
+      c.set('editEmail', "");
+      c.set('editUsername', "");
+      c.set('editPassword', "");
       modal.close();
     },
     deleteUser(modal){
@@ -175,7 +178,6 @@ export default Ember.Controller.extend({
         let username = c.get('editUsername');
         let email = c.get('editEmail');
         let password = c.get('editPassword');
-        console.log(username, email, password);
         if (username != "") {
           data.set('username', username );
         }
