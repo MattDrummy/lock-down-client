@@ -16,9 +16,9 @@ export default Ember.Controller.extend({
   signUpUsername: "",
   signUpEmail: "",
   signUpPassword: "",
-  editUsername: undefined,
-  editEmail: undefined,
-  editPassword: undefined,
+  editUsername: "",
+  editEmail: "",
+  editPassword: "",
   socketIOService: Ember.inject.service('socket-io'),
   url: `https://lock-down-web-server.herokuapp.com`,
   init(){
