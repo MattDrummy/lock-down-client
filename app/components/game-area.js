@@ -49,7 +49,7 @@ export default Ember.Component.extend({
           data.readOut.pushObject(`${data.currNode.path} ${data.command}`)
           data.readOut.pushObject(`USER = ${user}`)
           data.readOut.pushObject(`ROLE = engineer`)
-          data.readOut.pushObject(`PASSWORD = ${data.operatorpassword}`)
+          data.readOut.pushObject(`PASSWORD = ${data.gameData.operatorpassword}`)
         }
       },
     ])
@@ -73,7 +73,7 @@ export default Ember.Component.extend({
           })[0]
           switch (data.option) {
             case "--open":
-              if (data.optionParams[0] === data.operatorpassword) {
+              if (data.optionParams[0] === data.gameData.operatorpassword) {
                 data.readOut.pushObject('DOOR HAS OPENED YOU WIN!')
                 return true;
               } else {
@@ -171,7 +171,7 @@ export default Ember.Component.extend({
             folders: [],
             files: [{
               name: 'password.txt',
-              content: operatorpassword,
+              content: c.get('operatorpassword'),
             }],
 
           }
@@ -286,7 +286,6 @@ export default Ember.Component.extend({
       let commandList = c.get(`${role}Commands`);
       let fileStructure = c.get(`${role}FileStructure`);
       let gameData = c.get('gameData');
-      let operatorpassword = gameData.operatorpassword;
       let port = gameData[`${role}port`]
       let currlocation = role == "operator" ? "engineering" : gameData[`operativelocation`]
       let room = c.get('room');
@@ -297,7 +296,6 @@ export default Ember.Component.extend({
         readOut,
         command,
         option,
-        operatorpassword,
         port,
         optionParams,
         currlocation,
