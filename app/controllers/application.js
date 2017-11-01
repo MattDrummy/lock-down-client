@@ -191,6 +191,7 @@ export default Ember.Controller.extend({
       })
       .then((response)=>response._internalModel.__data)
       .then((user)=>{
+        console.log(user);
         localStorage.user = user.username;
         c.set('user', user.username);
         c.set('userEmail', user.email);
