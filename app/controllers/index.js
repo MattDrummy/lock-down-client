@@ -9,9 +9,6 @@ export default Ember.Controller.extend({
   url: Ember.computed.alias('appCont.url'),
   createGameRole: "operator",
   createGameEmail: "",
-  init(){
-    console.log(this.get("createGameEmail"));
-  },
   actions: {
     createGame(modal){
       let c = this;
@@ -67,7 +64,7 @@ export default Ember.Controller.extend({
           } else {
             Ember.$.ajax({
               type: 'POST',
-              url: `https://lock-down-web-server.herokuapp.com/email`,
+              url: `http://localhost:7000/email`,
               dataType: 'json',
               data: {
                 subject: `Come play $lockDown with ${owner}`,

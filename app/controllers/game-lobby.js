@@ -53,7 +53,6 @@ export default Ember.Controller.extend({
               const socket = c.get('socketIOService').socketFor(url)
               socket.emit('updateGameList')
               localStorage.user = c.get('user')
-              alert('transporting...')
               setTimeout(()=>{
                 location.href = `/game/${ownerrole == "operator" ? "operative" : "operator"}/${timestamp}`
               }, 500)

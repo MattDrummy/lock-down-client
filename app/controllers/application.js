@@ -20,7 +20,7 @@ export default Ember.Controller.extend({
   editEmail: undefined,
   editPassword: undefined,
   socketIOService: Ember.inject.service('socket-io'),
-  url: `https://lock-down-web-server.herokuapp.com`,
+  url: `http://localhost:7000`,
   init(){
     if (localStorage.token) {
       let c = this;
@@ -126,35 +126,6 @@ export default Ember.Controller.extend({
         }
       }
     ])
-  }),
-
-  // FILE STRUCTURE FOR OPERATOR
-
-
-  operatorFileStructure: Ember.computed(()=>{
-    return {
-      path: "C://",
-      bin: {
-        path: "C://bin",
-      },
-      log: {
-        path: "C://log",
-      },
-    }
-  }),
-
-  // FILE STRUCTURE FOR OPERATIVE
-
-  operativeFileStructure: Ember.computed(()=>{
-    return {
-      path: "C://",
-      bin: {
-        path: "C://bin",
-      },
-      log: {
-        path: "C://log",
-      },
-    }
   }),
 
   // ACTIONS

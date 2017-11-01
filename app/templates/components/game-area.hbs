@@ -2,6 +2,19 @@
 
   <div class="command-console">
     <div class="console-window">
+      {{#if (user-is-operator role)}}
+        <p>support systems are offline...</p>
+        <p>life support is in critical condition...</p>
+        <p>evacuate immediately...</p>
+        <p>WARNING: one life sign remains on ship...</p>
+        <p>attempting to patch communications...</p>
+        <p>communications open...</p>
+      {{else}}
+        <p>WARNING: door systems offline...</p>
+        <p>contact system engineer for assistance...</p>
+        <p>opening communications...</p>
+        <p>communications open...</p>
+      {{/if}}
       <p>{{currNode.path}}</p>
       {{#each consoleMessages as |message|}}
         <p>{{message}}</p>

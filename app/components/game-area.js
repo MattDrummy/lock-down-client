@@ -21,12 +21,11 @@ export default Ember.Component.extend({
     c._super(...arguments);
     c.set('gameChatMessages', [])
     c.set('consoleMessages', [])
-    c.set('timestamp', this.model.timestamp);
-    c.set('room', this.model.timestamp);
-    c.set('role',this.model.role);
-    let timestamp = this.model.timestamp;
-    let role = this.model.role
-    c.set('currNode', c.get(`${role}FileStructure`))
+    c.set('timestamp', c.model.timestamp);
+    c.set('room', c.model.timestamp);
+    c.set('role',c.model.role);
+    let timestamp = c.model.timestamp;
+    let role = c.model.role
     let room = timestamp;
 
     // Check for game instance
@@ -57,6 +56,46 @@ export default Ember.Component.extend({
       c.set('operatorpassword', game.operatorpassword);
       c.set('operatorport', game.operatorport);
       c.set('owner', game.owner);
+
+      // Operator File Structure
+
+      c.set('operatorFileStructure', {
+        path: "C://",
+        folders: ['bin', 'log', 'usr', 'docs'],
+        bin: {
+          path: "C://bin",
+        },
+        log: {
+          path: "C://log",
+        },
+        usr: {
+          path: "C://usr",
+        },
+        docs: {
+          path: "C://docs",
+        },
+      });
+
+      // Operative File Structure
+
+      c.set('operativeFileStructure', {
+        path: "C://",
+        folders: ['bin', 'log', 'usr', 'docs'],
+        bin: {
+          path: "C://bin",
+        },
+        log: {
+          path: "C://log",
+        },
+        usr: {
+          path: "C://usr",
+        },
+        docs: {
+          path: "C://docs",
+        },
+      })
+
+      c.set('currNode', c.get(`${role}FileStructure`))
 
       // Set up sockets
 
