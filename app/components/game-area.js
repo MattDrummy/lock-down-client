@@ -8,6 +8,91 @@ export default Ember.Component.extend({
   gameChatMessages: [],
   currNode: "",
   operatorlocation: "engineering",
+  // COMMANDS SHARED BY BOTH USERS
+
+  sharedCommands: [
+    {
+      command: "--help",
+      options: [],
+      desc: "lists commands and options for given command, or lists all commands if given on its own.",
+      run: (data)=>{
+        data.readOut.pushObject(`${data.currNode.path} ${data.command}`)
+        data.commandList.forEach((e)=>{
+          data.readOut.pushObject(`${e.command} : ${e.desc}`);
+        })
+      },
+    },
+    {
+      command: "whereami",
+      options: [],
+      desc: "prints out information on the server's information",
+      run: (data)=>{
+        data.readOut.pushObject(`${data.currNode.path} ${data.command}`);
+        data.readOut.pushObject(`LOCATION = ${data.currlocation}`);
+        data.readOut.pushObject(`PORT = ${data.port}`);
+      }
+    },
+
+  ],
+
+  // OPERATOR COMMANDS
+
+  operatorCommands: Ember.computed(function(){
+    let c = this;
+    return c.get('sharedCommands').concat([
+      {
+        command: "whoami",
+        options: [],
+        desc: "prints information on the currently logged in user",
+        run: (data)=>{
+          let user = c.get('user')
+          data.readOut.pushObject(`${data.currNode.path} ${data.command}`)
+          data.readOut.pushObject(`USER = ${user}`)
+          data.readOut.pushObject(`ROLE = engineer`)
+          data.readOut.pushObject(`PASSWORD = ${data.operatorpassword}`)
+        }
+      },
+    ])
+  }),
+
+  //OPERATIVE COMMANDS
+
+  operativeCommands: Ember.computed(function(){
+    let c = this;
+    return c.get('sharedCommands').concat([
+      {
+        command: `door`,
+        options: [
+          `--open [password] : opens the door with supplied password`,
+        ],
+        desc: "access the door's operations, type door --help to get a list of options",
+        run: (data)=>{
+          data.readOut.pushObject(`${data.currNode.path} ${data.command}`)
+          let operation = data.commandList.filter((e)=>{
+            return e.command == data.command
+          })[0]
+          switch (data.option) {
+            case "--open":
+              if (data.optionParams[0] === data.operatorpassword) {
+                data.readOut.pushObject('DOOR HAS OPENED YOU WIN!')
+                return true;
+              } else {
+                data.readOut.pushObject("error: incorrect password")
+              }
+              break;
+            case "--help":
+              operation.options.forEach((e)=>{
+                data.readOut.pushObject(e)
+              })
+              break;
+            default:
+            data.readOut.pushObject(`error: No option supplied, type --help to get a list of options and their descriptions`)
+          }
+        }
+      }
+    ])
+  }),
+
   fixScroll: (targetDiv)=>{
     setTimeout(()=>{
       let objDiv = document.getElementsByClassName(targetDiv)[0]
