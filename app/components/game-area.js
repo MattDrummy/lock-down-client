@@ -62,36 +62,70 @@ export default Ember.Component.extend({
       c.set('operatorFileStructure', {
         path: "C://",
         folders: ['bin', 'log', 'usr', 'docs'],
+        files: [],
         bin: {
+          dir: ['bin'],
           path: "C://bin",
+          folders: [],
+          files: [],
         },
         log: {
+          dir: ['log'],
           path: "C://log",
+          folders: [],
+          files: [],
         },
         usr: {
+          dir: ['usr'],
           path: "C://usr",
+          folders: [`${user}`],
+          files: [],
+          [user]: {
+            dir: ['usr', `${user}`],
+            path: `C://usr/${user}`,
+            folders: [],
+            files: [{
+              name: 'password.txt',
+              content: operatorpassword,
+            }],
+
+          }
         },
         docs: {
+          dir: ['docs'],
           path: "C://docs",
+          folders: [],
+          files: [],
         },
       });
 
       // Operative File Structure
 
       c.set('operativeFileStructure', {
+        dir: [],
         path: "C://",
-        folders: ['bin', 'log', 'usr', 'docs'],
+        folders: ['bin', 'log', 'docs'],
         bin: {
+          dir: ['bin'],
           path: "C://bin",
+          door: {
+            dir: ['bin', 'door'],
+            path: `C://bin/door`,
+            folders: [],
+            files: ['door.exe'],
+          }
         },
         log: {
+          dir: ['log'],
           path: "C://log",
-        },
-        usr: {
-          path: "C://usr",
+          folders: [],
+          files: [],
         },
         docs: {
+          dir: ['docs'],
           path: "C://docs",
+          folders: [],
+          files: [],
         },
       })
 
@@ -163,6 +197,7 @@ export default Ember.Component.extend({
       let optionParams = c.get('consoleInput').split(' ').slice(2)
       let role = c.get('role');
       let currPath = c.get('currNode').path;
+      let currNode = c.get('currNode');
       let readOut = c.get('consoleMessages');
       let commandList = c.get(`${role}Commands`);
       let fileStructure = c.get(`${role}FileStructure`);
@@ -184,6 +219,7 @@ export default Ember.Component.extend({
         optionParams,
         currlocation,
         socketIOService,
+        currNode
       }
       let operation = commandList.filter((e)=>{
         return e.command == command
@@ -199,20 +235,19 @@ export default Ember.Component.extend({
         readOut.pushObject(`${currPath} ${c.get('consoleInput')}`)
         readOut.pushObject("no such command exists")
       }
-      readOut.pushObject(currPath)
       c.set('consoleInput', '')
       c.get('fixScroll')('console-window')
 
     },
     chatEnter(){
       let c = this
-      const socket = c.get('socketIOService').socketFor(c.get('url'))
+      const socket = c.get('socketIOService').socketFor(c.get('url'));
       let room = c.get('room');
       let user = c.get('user');
-      let chatInput = c.get('chatInput')
-      socket.emit("message", [room, `${user}: ${chatInput}`])
-      c.set('chatInput', '')
-      c.get('fixScroll')('chat-window')
+      let chatInput = c.get('chatInput');
+      socket.emit("message", [room, `${user}: ${chatInput}`]);
+      c.set('chatInput', '');
+      c.get('fixScroll')('chat-window');
     },
   },
 });
