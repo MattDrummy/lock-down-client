@@ -196,7 +196,6 @@ export default Ember.Component.extend({
       let option = c.get('consoleInput').split(' ')[1];
       let optionParams = c.get('consoleInput').split(' ').slice(2)
       let role = c.get('role');
-      let currPath = c.get('currNode').path;
       let currNode = c.get('currNode');
       let readOut = c.get('consoleMessages');
       let commandList = c.get(`${role}Commands`);
@@ -211,7 +210,6 @@ export default Ember.Component.extend({
         commandList,
         fileStructure,
         readOut,
-        currPath,
         command,
         option,
         operatorpassword,
@@ -232,7 +230,7 @@ export default Ember.Component.extend({
           c.get('fixScroll')('chat-window')
         }
       } else {
-        readOut.pushObject(`${currPath} ${c.get('consoleInput')}`)
+        readOut.pushObject(`${currNode.path} ${c.get('consoleInput')}`)
         readOut.pushObject("no such command exists")
       }
       c.set('consoleInput', '')
