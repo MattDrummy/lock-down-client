@@ -2,7 +2,7 @@ import Ember from 'ember';
 import DS from 'ember-data';
 
 export default DS.RESTAdapter.extend({
-  host: 'http://localhost:7000',
+  host: 'https://lock-down-the-game.herokuapp.com',
   namespace: 'api/v1',
   shouldReloadRecord: function() {
     return true;
