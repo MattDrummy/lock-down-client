@@ -61,7 +61,7 @@ export default Ember.Controller.extend({
 
           Ember.$.ajax({
             type: 'POST',
-            url: `${c.get('url')}/login`,
+            url: `${c.get('url')}/logIn`,
             dataType: 'json',
             data: {
               password: password,
