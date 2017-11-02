@@ -64,7 +64,7 @@ export default Ember.Controller.extend({
           } else {
             Ember.$.ajax({
               type: 'POST',
-              url: `https://lock-down-web-server.herokuapp.com/email`,
+              url: `http://localhost:7000/email`,
               dataType: 'json',
               data: {
                 subject: `Come play $lockDown with ${owner}`,
@@ -79,7 +79,7 @@ export default Ember.Controller.extend({
 
                     <p style="text-indent:2em; font-size:1.5em;">Now is the time to decide if you're up for the challenge.  Click the link below and you will be transported into the game.</p>
 
-                    <h2 style="text-align:center; font-size:1.5em;"><a href="https://lock-down-web-server.herokuapp.com/game/${ownerrole == "operator" ? "operative" : "operator"}/${game.timestamp}">ENTER GAME</a></h2>
+                    <h2 style="text-align:center; font-size:1.5em;"><a href="https://lock-down-the-game.herokuapp.com/game/${ownerrole == "operator" ? "operative" : "operator"}/${game.timestamp}">ENTER GAME</a></h2>
                   </div>
                 `
               }

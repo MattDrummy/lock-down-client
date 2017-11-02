@@ -230,9 +230,9 @@ export default Ember.Component.extend({
       socket.on('gameDeleted', ()=>{
         location.href = "/"
       })
-      socket.on('gameConsole', (message)=>{
-        let messageArray = message.split('~')
-      })
+      // socket.on('gameConsole', (message)=>{
+      //   let messageArray = message.split('~')
+      // })
     })
   },
   willDestroyElement(){

@@ -20,13 +20,13 @@ export default Ember.Controller.extend({
   editEmail: "",
   editPassword: "",
   socketIOService: Ember.inject.service('socket-io'),
-  url: `https://lock-down-web-server.herokuapp.com`,
+  url: `http://localhost:7000`,
   init(){
     if (localStorage.token) {
       let c = this;
       Ember.$.ajax({
         type: 'POST',
-        url: `${c.get('url')}/logIn`,
+        url: `${c.get('url')}/verifyToken`,
         datatype: 'json',
         data: {
           tokenString: localStorage.token,
@@ -46,42 +46,40 @@ export default Ember.Controller.extend({
   actions: {
     logIn(modal){
       let c = this
-      let username = c.get('logInUsername')
-      let password = c.get('logInPassword')
+      let username = c.get('logInUsername');
+      let password = c.get('logInPassword');
+
       c.get('store').findAll('user')
       .then((data)=>{
-        let user = data.content.map((item)=>{
+        let dbUser = data.content.map((item)=>{
           return item.__data;
         }).filter((item)=>{
           return item.username == username;
         })[0]
-        if (user.password == password) {
-          c.set('user', user.username);
-          c.set('userEmail', user.email);
-          c.set('userTimestamp', user.timestamp);
-          c.set('loggedIn', true);
+
+          // SIGN JWT AFTER VERIFIYING IDENTITY
 
           Ember.$.ajax({
             type: 'POST',
-            url: `${c.get('url')}/signJWT`,
+            url: `${c.get('url')}/login`,
             dataType: 'json',
             data: {
-              username: user.username,
-              email: user.email,
-              password: user.password,
-              timestamp: user.timestamp,
+              password: password,
+              timestamp: dbUser.timestamp,
             },
           })
           .then((response)=>{
-            localStorage.user = username;
+            localStorage.user = dbUser.username;
             localStorage.token = response.tokenString;
+            c.set('user', dbUser.username);
+            c.set('userEmail', dbUser.email);
+            c.set('userTimestamp', dbUser.timestamp);
+            c.set('loggedIn', true);
+
           })
           .catch((err)=>{
-            alert(err.responseJSON.error);
+            alert(err.responseJSON.error)
           })
-        } else{
-          alert('password is incorrect! Please try again.')
-        }
       })
       modal.close()
     },
@@ -174,7 +172,6 @@ export default Ember.Controller.extend({
         "timestamp": timestamp,
       })
       .then((data)=>{
-        let user = data._internalModel.__data;
         let username = c.get('editUsername');
         let email = c.get('editEmail');
         let password = c.get('editPassword');
