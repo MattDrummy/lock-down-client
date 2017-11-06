@@ -2,6 +2,11 @@
 
 Welcome to $lockDown.  An asymmetrical co-operative tech-themed game.
 
+
+Deployed app: [lock-down-the-game](https://lock-down-the-game.herokuapp.com)
+
+Server: [lock-down-server](https://github.com/MattDrummy/lock-down-server)
+
 In this game, you are stranded aboard a space station that has been deserted. Most systems are offline, and most doors are on $lockDown. However, you are not alone! There is another person stranded aboard the station, and with their help, you both may be able to escape to tell this tale.
 
 But, one of you is stranded in Engineering, unable to leave, the other is wandering the station. Luckily, both of you found a communication device to speak to each other. Perhaps if you work together, you can over come the struggles of the station.
