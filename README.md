@@ -2,9 +2,9 @@
 
 Welcome to $lockDown.  An asymmetrical co-operative tech-themed game.
 
-In this game, you are stranded aboard a space station that has been deserted. Most systems are offline, and most doors are on $lockDown. However, you are not alone! There is another person stranded aboard the staiton, and with their help, you both may be able to escape to tell this tale.
+In this game, you are stranded aboard a space station that has been deserted. Most systems are offline, and most doors are on $lockDown. However, you are not alone! There is another person stranded aboard the station, and with their help, you both may be able to escape to tell this tale.
 
-But, one of you is stranded in Engineering, unable to leave, the other is wandering the station. Luckilly, both of you found a communication device to speak to each other. Perhaps if you work together, you can over come the struggles of the station.
+But, one of you is stranded in Engineering, unable to leave, the other is wandering the station. Luckily, both of you found a communication device to speak to each other. Perhaps if you work together, you can over come the struggles of the station.
 
 ![front-page](./front-page.png)
 
